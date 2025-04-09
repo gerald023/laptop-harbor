@@ -26,11 +26,12 @@ class AuthService{
     return digest.toString();
   }
 
-  Future<String?> SignUp({
+  Future<String?> signUp({
     required String name,
     required String email,
     required String password
   }) async{
+    print('the beginning');
     try{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
@@ -63,6 +64,7 @@ class AuthService{
         return null;
       }
     }on FirebaseAuthException catch(e){
+      print(e);
       switch (e.code) {
         case 'weak-password':
           return 'The password provided is too weak.';
@@ -73,9 +75,11 @@ class AuthService{
         case 'network-request-failed':
           return 'Network error occurred. Please check your connection.';
         default:
+        print(e);
           return 'An unknown error occurred. Please try again.';
       }
     }catch(e){
+      print(e);
       return 'An unexpected error occurred. Please try again.';
     }
     return 'Sign up failed. Please try again';

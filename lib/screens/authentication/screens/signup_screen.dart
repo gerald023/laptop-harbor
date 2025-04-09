@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static String routeName = "/signup";
   final _formKey = GlobalKey<FormState>();
 
   SignUpScreen({super.key});

@@ -1,5 +1,6 @@
 import 'package:aptech_project/components/textField_widget.dart';
 import 'package:aptech_project/provider/firebase_provider.dart';
+import 'package:aptech_project/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:aptech_project/components/custom_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,23 +38,55 @@ class _SignupFormState extends ConsumerState<SignupForm> {
      setState(() {
       _isLoading = true;
     });
-    final firebaseService = ref.read(firebaseServiceProvider);
+    try{
+        final firebaseService = ref.read(firebaseServiceProvider);
     
-     final errorMessage = await firebaseService.SignUp(
-      name: nameController.text.trim(),
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
+    print('starting sign up');
+      final res = await firebaseService.signUp(
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+        password: passwordController.text.trim()
+      );
 
+    print(res);
+    // print('sign up completed!!');
      setState(() {
       _isLoading = false;
     });
-    
-    if (errorMessage == null) {
+
+     if (res == null) {
+      if (!mounted) return;
       // Navigate to the Login screen
-      Navigator.pushNamed(context, '/login');
+      print('sign up completed i guess');
+      // Navigator.pushNamed(context, '/onboarding');
     }else{
       // ToasterUtils.showCustomSnackBar(context, errorMessage);
+       showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Already Registered'),
+      content: Text('This email is already in use. Would you like to log in instead?'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/login');
+          },
+          child: Text('Go to Login'),
+        ),
+      ],
+    ),
+  );
+      print('sign up might had failed');
+    }
+    }catch(e, stack){
+      print('error during sign up $e');
+      print('Stack trace: $stack');
+    } finally{
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -70,7 +103,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your full name';
-                  }
+                  }  
                   if (value.split(" ").length < 2) {
                     return 'Please enter at least two words for your full name';
                   }
