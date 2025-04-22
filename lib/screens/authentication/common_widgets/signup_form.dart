@@ -1,9 +1,10 @@
 import 'package:aptech_project/components/textField_widget.dart';
 import 'package:aptech_project/provider/firebase_provider.dart';
-import 'package:aptech_project/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:aptech_project/components/custom_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:aptech_project/route/screen_export.dart';
+
 
 
 
@@ -59,6 +60,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
       // Navigate to the Login screen
       print('sign up completed i guess');
       // Navigator.pushNamed(context, '/onboarding');
+       Navigator.pushNamed(context, entryPointScreenRoute);
     }else{
       // ToasterUtils.showCustomSnackBar(context, errorMessage);
        showDialog(
@@ -163,6 +165,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
             },
             buttonText: "Register now",
             isLoading: _isLoading,
+            backgroundColor: Colors.black,
           ),
           ],
         ),

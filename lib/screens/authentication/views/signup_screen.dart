@@ -2,6 +2,7 @@ import 'package:aptech_project/screens/authentication/common_widgets/signup_form
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:aptech_project/route/route_constants.dart';
 
 class SignUpScreen extends StatelessWidget {
   static String routeName = "/signup";
@@ -59,7 +60,8 @@ class SignUpScreen extends StatelessWidget {
                           const SizedBox(width: 1),
                           TextButton(
                         onPressed: () {
-                          Get.offNamed('login');
+                          // Get.offNamed('login');
+                          Navigator.pushNamed(context, logInScreenRoute);
                         },
                         child: Text.rich(
                           const TextSpan(

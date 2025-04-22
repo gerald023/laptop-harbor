@@ -2,8 +2,9 @@ import 'package:aptech_project/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:aptech_project/screens/authentication/screens/signup_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:aptech_project/route/route_constants.dart';
+import 'package:aptech_project/route/router.dart' as router;
 import 'routes.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 void main() async{
@@ -34,13 +35,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Laptop Harbor',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: OnBoardingScreen.routeName,
-      routes: routes,
-      home: const OnBoardingScreen(),
+      onGenerateRoute: router.generateRoute,
+      initialRoute: onboardingScreenRoute,
     );
   }
 }

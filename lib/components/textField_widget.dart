@@ -54,6 +54,7 @@ class _TextfieldWidgetState extends State<TextfieldWidget> {
             controller: widget.controller,
             cursorColor: Colors.grey.shade800,
             keyboardType: widget.keyboardType,
+            
             onTapOutside: (e) {
               FocusScope.of(context).unfocus();
             },
