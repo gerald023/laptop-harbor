@@ -1,21 +1,24 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:aptech_project/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aptech_project/route/route_constants.dart';
 import 'package:aptech_project/route/router.dart' as router;
-import 'routes.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   try{
+    // print(Firebase.apps);
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform
+      
     );
+    // print(Firebase.apps);
     FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true // Enable offline persistence
     );
+    
     runApp(
     const ProviderScope(
       child:  MyApp()

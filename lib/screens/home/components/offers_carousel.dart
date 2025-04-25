@@ -28,17 +28,20 @@ class _OffersCarouselState extends State<OffersCarousel> {
     BannerMStyle1(
       text: "New items with \nFree shipping",
       press: () {},
+
     ),
     BannerMStyle2(
       title: "Black \nfriday",
       subtitle: "Collection",
       discountParcent: 50,
       press: () {},
+      image: 'https://i.postimg.cc/Wp6d0yFR/offer-2.jpg',
     ),
     BannerMStyle3(
       title: "Grab \nyours now",
       discountParcent: 50,
       press: () {},
+      image: 'https://i.postimg.cc/cCX12Vwr/pexels-photo-2569997.webp',
     ),
     BannerMStyle4(
       // image: , user your image
@@ -46,13 +49,14 @@ class _OffersCarouselState extends State<OffersCarousel> {
       subtitle: "SPECIAL OFFER",
       discountParcent: 80,
       press: () {},
+      image: 'https://i.postimg.cc/FK3rNf0t/black-laptop-is-stage-with-bright-neon-sign-that-says-black-friday-sale-569412-825.jpg',
     ),
   ];
 
   @override
   void initState() {
     _pageController = PageController(initialPage: 0);
-    _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (Timer timer) {
       if (_selectedIndex < offers.length - 1) {
         _selectedIndex++;
       } else {

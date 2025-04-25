@@ -20,8 +20,9 @@ class FlashSale extends StatelessWidget {
         // const BannerMWithCounterSkelton(),
         BannerMWithCounter(
           duration: const Duration(hours: 8),
-          text: "Super Flash Sale \n50% Off",
+          text: "Super Flash Sale \n70% Off",
           press: () {},
+          image: 'https://i.postimg.cc/vTKp39Z4/s-l1600.webp',
         ),
         const SizedBox(height: defaultPadding / 2),
         Padding(

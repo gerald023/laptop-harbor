@@ -46,12 +46,23 @@ class _EntryPointState extends State<EntryPoint> {
         leading: const SizedBox(),
         leadingWidth: 0,
         centerTitle: false,
-        title: SvgPicture.asset(
-          "logo/Shoplon.svg",
-          colorFilter: ColorFilter.mode(
-              Theme.of(context).iconTheme.color!, BlendMode.srcIn),
-          height: 20,
-          width: 100,
+        title: Row(
+          children: [
+            SvgPicture.asset(
+              "logo/laptop_harbor.svg",
+              colorFilter: ColorFilter.mode(
+                  Theme.of(context).iconTheme.color!, BlendMode.srcIn),
+              height: 20,
+              width: 100,
+            ),
+            const Text('LaptopHarbor',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+                fontFamily: 'Roboto'
+              ),
+            )
+          ],
         ),
         actions: [
           IconButton(
@@ -127,10 +138,10 @@ class _EntryPointState extends State<EntryPoint> {
               label: "Discover",
             ),
             BottomNavigationBarItem(
-              icon: svgIcon("assets/icons/Bookmark.svg"),
+              icon: svgIcon("assets/icons/love.svg"),
               activeIcon:
-                  svgIcon("assets/icons/Bookmark.svg", color: primaryColor),
-              label: "Bookmark",
+                  svgIcon("assets/icons/love.svg", color: primaryColor),
+              label: "Favorite",
             ),
             BottomNavigationBarItem(
               icon: svgIcon("assets/icons/Bag.svg"),

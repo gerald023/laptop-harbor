@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CustomScrollView(
           slivers: [
             const SliverToBoxAdapter(child: OffersCarouselAndCategories()),
-            const SliverToBoxAdapter(child: PopularProducts()),
+            SliverToBoxAdapter(child: PopularProducts()),
             const SliverPadding(
               padding: EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
               sliver: SliverToBoxAdapter(child: FlashSale()),
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   // While loading use 👇
-                  // const BannerMSkelton(),‚
+                  // const BannerMSkelton(),
                   BannerSStyle1(
                     title: "New \narrival",
                     subtitle: "SPECIAL OFFER",

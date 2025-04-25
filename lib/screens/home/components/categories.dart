@@ -22,10 +22,10 @@ List<CategoryModel> demoCategories = [
       name: "On Sale",
       svgSrc: "assets/icons/Sale.svg",
       route: createProductScreenRoute),
-  CategoryModel(name: "Man's", svgSrc: "assets/icons/Man.svg", route: addProductDetailsScreenRoute),
-  CategoryModel(name: "Woman’s", svgSrc: "assets/icons/Woman.svg"),
+  CategoryModel(name: "Gaming", svgSrc: "assets/icons/game_pad.svg", route: addProductDetailsScreenRoute),
+  CategoryModel(name: "Business", svgSrc: "assets/icons/business_logo.svg"),
   CategoryModel(
-      name: "Kids", svgSrc: "assets/icons/Child.svg", route: kidsScreenRoute),
+      name: "Work Station", svgSrc: "assets/icons/work_logo.svg", route: kidsScreenRoute),
 ];
 // End For Preview
 

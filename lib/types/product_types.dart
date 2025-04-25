@@ -158,5 +158,17 @@ class ProductDetailsType{
       'display': display
     };
   }
+
+  factory ProductDetailsType.fromMap(Map<String, dynamic> map){
+  return ProductDetailsType(
+  basicInfo: map['basicInfo'] ?? {}, 
+  battery: map['battery'] ?? {}, 
+  operatingSystem: map['operatingSystem'] ?? {}, 
+  buildAndDesign: map['buildAndDesign'] ?? {}, 
+  memory: map['memory']?? {}, 
+  processor: map['processor'] ?? {}, 
+  display: map['display'] ?? {}, 
+  );
+}
   
 }
