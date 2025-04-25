@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:aptech_project/components/dot_indicators.dart';
 import 'package:aptech_project/constants.dart';
-// import 'package:shop/route/route_constants.dart';
+import 'package:aptech_project/route/screen_export.dart';
+
 
 import 'components/onboarding_content.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
-  static String routeName = "/onboard";
 
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
@@ -78,7 +77,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // Navigator.pushNamed(context, logInScreenRoute);
+                    Navigator.pushNamed(context, logInScreenRoute);
                   },
                   child: Text(
                     "Skip",
@@ -126,7 +125,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           _pageController.nextPage(
                               curve: Curves.ease, duration: defaultDuration);
                         } else {
-                          Navigator.pushNamed(context, '/signup');
+                          Navigator.pushNamed(context, signUpScreenRoute);
                         }
                       },
                       style: ElevatedButton.styleFrom(
