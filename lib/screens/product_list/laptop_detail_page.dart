@@ -1,18 +1,19 @@
+import 'package:aptech_project/route/route_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/laptop.dart';
-import '../../models/cart.dart';
+import '../../../provider/cart_provider.dart';
 import 'widgets/review_card.dart';
 import 'cart_screen.dart';
 
-class LaptopDetailPage extends StatelessWidget {
+class LaptopDetailPage extends ConsumerWidget {
   final Laptop laptop;
 
-  LaptopDetailPage({required this.laptop});
+  const LaptopDetailPage({Key? key, required this.laptop}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartNotifier = ref.read(cartProvider.notifier);
     
     return Scaffold(
       appBar: AppBar(
@@ -24,14 +25,16 @@ class LaptopDetailPage extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.shopping_cart),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                  Navigator.of(context).pushNamed(cartRoute);
                 },
               ),
               Positioned(
                 right: 8,
                 top: 8,
-                child: Consumer<Cart>(
-                  builder: (_, cart, ch) => cart.itemCount > 0
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final cart = ref.watch(cartProvider);
+                    return cart.itemCount > 0
                       ? Container(
                           padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
@@ -51,7 +54,8 @@ class LaptopDetailPage extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Container(),
+                      : Container();
+                  }
                 ),
               ),
             ],
@@ -267,7 +271,7 @@ class LaptopDetailPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        Container(
+                        SizedBox(
                           height: 100,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
@@ -321,7 +325,7 @@ class LaptopDetailPage extends StatelessWidget {
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: laptop.isProductAvailable ? () {
-                      cart.addItem(laptop);
+                      cartNotifier.addItem(laptop);
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

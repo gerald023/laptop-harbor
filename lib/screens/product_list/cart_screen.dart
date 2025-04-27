@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../models/cart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../provider/cart_provider.dart';
 import 'widgets/cart_item_widget.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends ConsumerWidget {
   static const routeName = '/cart';
 
+  const CartScreen({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cart = ref.watch(cartProvider);
+    final cartNotifier = ref.read(cartProvider.notifier);
     
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Cart'),
+        title: const Text('Your Cart'),
         actions: [
           if (cart.itemCount > 0)
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: Text('Clear Cart'),
-                    content: Text('Are you sure you want to remove all items?'),
+                    title: const Text('Clear Cart'),
+                    content: const Text('Are you sure you want to remove all items?'),
                     actions: [
                       TextButton(
-                        child: Text('Cancel'),
+                        child: const Text('Cancel'),
                         onPressed: () {
                           Navigator.of(ctx).pop();
                         },
                       ),
                       TextButton(
-                        child: Text('Yes'),
+                        child: const Text('Yes'),
                         onPressed: () {
-                          cart.clear();
+                          cartNotifier.clear();
                           Navigator.of(ctx).pop();
                         },
                       ),
@@ -47,47 +50,47 @@ class CartScreen extends StatelessWidget {
       body: Column(
         children: [
           Card(
-            margin: EdgeInsets.all(15),
+            margin: const EdgeInsets.all(15),
             child: Padding(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Total',
                     style: TextStyle(fontSize: 20),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Chip(
                     label: Text(
                       '\$${cart.totalAmount.toStringAsFixed(2)}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   ElevatedButton(  
                     onPressed: cart.itemCount == 0 ? null : () {
                       // Implement checkout functionality
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Proceeding to checkout...'),
                           duration: Duration(seconds: 2),
                         ),
                       );
                     },
-                    child: Text('CHECKOUT'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Theme.of(context).primaryColor,
                     ),
+                    child: const Text('CHECKOUT'),
                   )
                 ],
               ),
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Expanded(
             child: cart.items.isEmpty
                 ? Center(
@@ -99,20 +102,20 @@ class CartScreen extends StatelessWidget {
                           size: 100,
                           color: Colors.grey,
                         ),
-                        SizedBox(height: 20),
-                        Text(
+                        const SizedBox(height: 20),
+                        const Text(
                           'Your cart is empty',
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.grey,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text('Start Shopping'),
+                          child: const Text('Start Shopping'),
                           style: TextButton.styleFrom(
                             foregroundColor: Theme.of(context).primaryColor,
                           ),

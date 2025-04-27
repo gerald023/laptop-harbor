@@ -1,67 +1,28 @@
 // lib/models/cart.dart
-import 'dart:collection';
 import 'package:flutter/foundation.dart';
-import 'laptop.dart';
 import 'cart_items.dart';
+import 'laptop.dart';
 
-class Cart extends ChangeNotifier {
-  final Map<String, CartItem> _items = {};
+class Cart {
+  final Map<String, CartItem> items;
 
-  UnmodifiableMapView<String, CartItem> get items => UnmodifiableMapView(_items);
-  
-  int get itemCount => _items.length;
-  
+  Cart({
+    this.items = const {},
+  });
+
+  int get itemCount {
+    return items.values.fold(0, (sum, item) => sum + item.quantity);
+  }
+
   double get totalAmount {
-    double total = 0;
-    _items.forEach((key, item) {
-      total += item.totalPrice;
-    });
-    return total;
+    return items.values.fold(0.0, (sum, item) => sum + (item.laptop.discountedPrice * item.quantity));
   }
 
-  void addItem(Laptop laptop, {int quantity = 1}) {
-    if (_items.containsKey(laptop.productId)) {
-      // Update quantity of existing item
-      _items.update(
-        laptop.productId,
-        (existingItem) => CartItem(
-          laptop: existingItem.laptop,
-          quantity: existingItem.quantity + quantity,
-        ),
-      );
-    } else {
-      // Add new item
-      _items.putIfAbsent(
-        laptop.productId,
-        () => CartItem(
-          laptop: laptop,
-          quantity: quantity,
-        ),
-      );
-    }
-    notifyListeners();
-  }
-
-  void removeItem(String productId) {
-    _items.remove(productId);
-    notifyListeners();
-  }
-
-  void updateQuantity(String productId, int quantity) {
-    if (_items.containsKey(productId) && quantity > 0) {
-      _items.update(
-        productId,
-        (existingItem) => CartItem(
-          laptop: existingItem.laptop,
-          quantity: quantity,
-        ),
-      );
-      notifyListeners();
-    }
-  }
-
-  void clear() {
-    _items.clear();
-    notifyListeners();
+  Cart copyWith({
+    Map<String, CartItem>? items,
+  }) {
+    return Cart(
+      items: items ?? this.items,
+    );
   }
 }
