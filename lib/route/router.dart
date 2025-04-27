@@ -199,6 +199,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => LaptopListPage(),
       );
+    case cartRoute:
+      return MaterialPageRoute(
+        builder: (context) => const CartScreen(),
+      );
     // case profileScreenRoute:
     //   return MaterialPageRoute(
     //     builder: (context) => const ProfileScreen(),

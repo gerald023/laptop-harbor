@@ -29,3 +29,4 @@ export '/screens/search/search_screen.dart';
 export '/screens/profile/profile_screen.dart';
 // export '/screens/user_info/views/user_info_screen.dart';
 export '../screens/product_list/laptop_list_screen.dart';
+export '../screens/product_list/cart_screen.dart';

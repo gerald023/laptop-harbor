@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../models/cart_items.dart';
-import '../../../models/cart.dart';
+import '../../../provider/cart_provider.dart';
 
-class CartItemWidget extends StatelessWidget {
+class CartItemWidget extends ConsumerWidget {
   final String productId;
   final CartItem cartItem;
 
-  CartItemWidget({
+  const CartItemWidget({
+    Key? key,
     required this.productId,
     required this.cartItem,
-  });
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartNotifier = ref.read(cartProvider.notifier);
     
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: ListTile(
           leading: Container(
             width: 70,
@@ -39,19 +40,19 @@ class CartItemWidget extends StatelessWidget {
               Text('Price: \$${cartItem.laptop.discountedPrice.toStringAsFixed(2)}'),
               Row(
                 children: [
-                  Text('Quantity: '),
+                  const Text('Quantity: '),
                   IconButton(
-                    icon: Icon(Icons.remove, size: 18),
+                    icon: const Icon(Icons.remove, size: 18),
                     onPressed: cartItem.quantity > 1
                         ? () {
-                            cart.updateQuantity(productId, cartItem.quantity - 1);
+                            cartNotifier.updateQuantity(productId, cartItem.quantity - 1);
                           }
                         : null,
                     padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(3),
@@ -59,12 +60,12 @@ class CartItemWidget extends StatelessWidget {
                     child: Text('${cartItem.quantity}'),
                   ),
                   IconButton(
-                    icon: Icon(Icons.add, size: 18),
+                    icon: const Icon(Icons.add, size: 18),
                     onPressed: () {
-                      cart.updateQuantity(productId, cartItem.quantity + 1);
+                      cartNotifier.updateQuantity(productId, cartItem.quantity + 1);
                     },
                     padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                   ),
                 ],
               ),
@@ -76,29 +77,29 @@ class CartItemWidget extends StatelessWidget {
             children: [
               Text(
                 '\$${(cartItem.laptop.discountedPrice * cartItem.quantity).toStringAsFixed(2)}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.delete, color: Colors.red),
+                icon: const Icon(Icons.delete, color: Colors.red),
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (ctx) => AlertDialog(
-                      title: Text('Remove Item'),
-                      content: Text('Are you sure you want to remove this item from the cart?'),
+                      title: const Text('Remove Item'),
+                      content: const Text('Are you sure you want to remove this item from the cart?'),
                       actions: [
                         TextButton(
-                          child: Text('Cancel'),
+                          child: const Text('Cancel'),
                           onPressed: () {
                             Navigator.of(ctx).pop();
                           },
                         ),
                         TextButton(
-                          child: Text('Yes'),
+                          child: const Text('Yes'),
                           onPressed: () {
-                            cart.removeItem(productId);
+                            cartNotifier.removeItem(productId);
                             Navigator.of(ctx).pop();
                           },
                         ),
