@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: router.generateRoute,
-      initialRoute: productListRoute,
+      initialRoute: onboardingScreenRoute,
     );
   }
 }
