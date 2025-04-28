@@ -167,116 +167,116 @@ class ProductService{
     }
   }
 
-  Future<List<ProductModels>> getPopularProducts() async{
-    try{
-      final allProducts =  await getAllProducts();
-      final popularProducts = allProducts.where((product){
-        return product.discountPercent  != null && product.discountPercent! > 10;
-      }).toList();
+  // Future<List<ProductModels>> getPopularProducts() async{
+  //   try{
+  //     final allProducts =  await getAllProducts();
+  //     final popularProducts = allProducts.where((product){
+  //       return product.discountPercent  != null && product.discountPercent! > 10;
+  //     }).toList();
       
-      return popularProducts;
-    } catch (e) {
-    print('Error while getting popular products: $e');
-    return [];
-  }
-  }
+  //     return popularProducts;
+  //   } catch (e) {
+  //   print('Error while getting popular products: $e');
+  //   return [];
+  // }
+  // }
 
-  Future<ProductModels?> getProductById(String productId) async{
-    try{
-      DocumentSnapshot doc = await _firestore.collection('Products').doc(productId).get();
-      if (doc.exists) {
-      final data = doc.data() as Map<String, dynamic>;
-      data['productId'] = doc.id;
-      return ProductModels.fromMap(data);
-      } else {
-      print('No product found with ID: $productId');
-      return null;
-        }
-    }catch(e){
-      print('Error getting product by ID: $e');
-      return null;
-    }
-  }
+  // Future<ProductModels?> getProductById(String productId) async{
+  //   try{
+  //     DocumentSnapshot doc = await _firestore.collection('Products').doc(productId).get();
+  //     if (doc.exists) {
+  //     final data = doc.data() as Map<String, dynamic>;
+  //     data['productId'] = doc.id;
+  //     return ProductModels.fromMap(data);
+  //     } else {
+  //     print('No product found with ID: $productId');
+  //     return null;
+  //       }
+  //   }catch(e){
+  //     print('Error getting product by ID: $e');
+  //     return null;
+  //   }
+  // }
 
-  Future<ProductDetailsModel?> getProductDetail(String productId) async{
-    try{
-      QuerySnapshot snapshot = await _firestore.collection('ProductDetails')
-      .where('productId', isEqualTo: productId)
-      .limit(1)
-      .get();
+  // Future<ProductDetailsType?> getProductDetail(String productId) async{
+  //   try{
+  //     QuerySnapshot snapshot = await _firestore.collection('ProductDetails')
+  //     .where('productId', isEqualTo: productId)
+  //     .limit(1)
+  //     .get();
     
-    if (snapshot.docs.isNotEmpty) {
-      final data = snapshot.docs.first.data() as Map<String, dynamic>;
+  //   if (snapshot.docs.isNotEmpty) {
+  //     final data = snapshot.docs.first.data() as Map<String, dynamic>;
 
-      // Replace with your own parsing logic depending on ProductDetailsType
-      return ProductDetailsModel.fromMap(data); 
-    } else {
-      print('No product details found for productId: $productId');
-      return null;
-    }
-    }catch(e){
-      print('error while getting product details $e');
-      return null;
-    }
+  //     // Replace with your own parsing logic depending on ProductDetailsType
+  //     return ProductDetailsType.fromMap(data); 
+  //   } else {
+  //     print('No product details found for productId: $productId');
+  //     return null;
+  //   }
+  //   }catch(e){
+  //     print('error while getting product details $e');
+  //     return null;
+  //   }
     
-  }
+  // }
 
 
-  Future<bool> addProductReview(ReviewsModel data) async{
-      try{
-        User? user = _auth.currentUser;
+  // Future<bool> addProductReview(ReviewsModel data) async{
+  //     try{
+  //       User? user = _auth.currentUser;
       
-      DocumentSnapshot userDoc = await _firestore.collection('Users').doc(user!.uid).get();
+  //     DocumentSnapshot userDoc = await _firestore.collection('Users').doc(user!.uid).get();
 
-      String userId = userDoc.get('userId') ?? '';
-      print(userId);
-      String reviewId = uuid.v4();
-      DocumentSnapshot reviewDoc = await _firestore.collection('Reviews').doc('userId').get();
-      if (reviewDoc.exists) {
+  //     String userId = userDoc.get('userId') ?? '';
+  //     print(userId);
+  //     String reviewId = uuid.v4();
+  //     DocumentSnapshot reviewDoc = await _firestore.collection('Reviews').doc('userId').get();
+  //     if (reviewDoc.exists) {
         
-      }else{
-        await _firestore.collection('Reviews').doc(reviewId).set(
-          data.toMap()
-        );
-        return true;
-      }
-      return true;
-      }catch(e){
-        print('error while adding review: $e');
-        return false;
-      }
-  }
+  //     }else{
+  //       await _firestore.collection('Reviews').doc(reviewId).set(
+  //         data.toMap()
+  //       );
+  //       return true;
+  //     }
+  //     return true;
+  //     }catch(e){
+  //       print('error while adding review: $e');
+  //       return false;
+  //     }
+  // }
 
-  Future<List<ReviewsModel>> getAllProductReviews(String productId) async {
-    try{
-      QuerySnapshot querySnapshot = await _firestore.collection('Reviews')
-        .where('productId', isEqualTo: productId)
-        .get();
+  // Future<List<ReviewsModel>> getAllProductReviews(String productId) async {
+  //   try{
+  //     QuerySnapshot querySnapshot = await _firestore.collection('Reviews')
+  //       .where('productId', isEqualTo: productId)
+  //       .get();
 
-      return querySnapshot.docs.map((doc){
-        final data = doc.data() as Map<String, dynamic>;
-        data['reviewId'] = doc.id;
-        return ReviewsModel.fromMap(data);
-      }).toList();
-    }catch(e){
-      print('error in getting product reviews: $e');
-      return [];
-    }
-  }
+  //     return querySnapshot.docs.map((doc){
+  //       final data = doc.data() as Map<String, dynamic>;
+  //       data['reviewId'] = doc.id;
+  //       return ReviewsModel.fromMap(data);
+  //     }).toList();
+  //   }catch(e){
+  //     print('error in getting product reviews: $e');
+  //     return [];
+  //   }
+  // }
 
-  Future<ReviewsModel?> getProductReviewById(String reviewId) async{
-    try{
-      DocumentSnapshot doc = await _firestore.collection('Reviews').doc(reviewId).get();
-      if (doc.exists) {
-        final data = doc.data() as Map<String, dynamic>;
-        return ReviewsModel.fromMap(data);
+  // Future<ReviewsModel?> getProductReviewById(String reviewId) async{
+  //   try{
+  //     DocumentSnapshot doc = await _firestore.collection('Reviews').doc(reviewId).get();
+  //     if (doc.exists) {
+  //       final data = doc.data() as Map<String, dynamic>;
+  //       return ReviewsModel.fromMap(data);
         
-      }
-      return null;
-    }catch(e){
-      print('error while getting the product\'s review: $e');
-      return null;
-    }
+  //     }
+  //     return null;
+  //   }catch(e){
+  //     print('error while getting the product\'s review: $e');
+  //     return null;
+  //   }
 
-  }
+  // }
 }
