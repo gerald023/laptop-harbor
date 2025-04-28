@@ -16,6 +16,14 @@ class BasicInfo{
       'stockQuantity': stockQuantity
     };
   }
+
+   factory BasicInfo.fromMap(Map<String, dynamic> map) {
+    return BasicInfo(
+      productName: map['productName'] ?? '',
+      price: (map['price'] ?? 0).toDouble(),
+      stockQuantity: (map['stockQuantity'] ?? 0),
+    );
+  }
 }
 
 class Battery {
@@ -39,6 +47,15 @@ class Battery {
       'chargingType': chargingType
     };
   }
+
+  factory Battery.fromMap(Map<String, dynamic> map) {
+    return Battery(
+      type: map['type'] ?? '',
+      backupHours: (map['backupHours'] ?? 0).toDouble(),
+      capacityWh: (map['capacityWh'] ?? 0),
+      chargingType: map['chargingType'] ?? ''
+    );
+  }
 }
 
 class OperatingSystem {
@@ -55,6 +72,12 @@ class OperatingSystem {
       'name': name,
       'version': version
     };
+  }
+  factory OperatingSystem.fromMap(Map<String, dynamic> map){
+    return OperatingSystem(
+      name: map['name'] ?? '',
+       version: map['version'] ?? ''
+    );
   }
 }
 
@@ -73,7 +96,12 @@ class BuildAndDesign {
       'color': color
     };
   }
-
+  factory BuildAndDesign.fromMap(Map<String, dynamic> map){
+    return BuildAndDesign(
+      material: map['material'] ?? '', 
+      color: map['color'] ?? '',
+    );
+  }
 }
 
 class Memory {
@@ -94,6 +122,14 @@ class Memory {
       'expandable': expandable
     };
   }
+
+  factory Memory.fromMap(Map<String, dynamic> map){
+    return Memory(
+      sizeGB: map['sizeGB'] ?? 0, 
+      type: map['type'] ?? '', 
+      expandable: map['expandable'] ?? false
+    );
+  }
 }
 
 class Processor {
@@ -111,6 +147,13 @@ class Processor {
       'model': model,
       'baseSpeedGHz': baseSpeedGHz
     };
+  }
+
+  factory Processor.fromMap(Map<String, dynamic> map){
+    return Processor(
+      model: map['model'] ?? '', 
+      baseSpeedGHz: map['baseSpeedGHz'] ?? 0
+    );
   }
 }
 
@@ -133,9 +176,19 @@ class Display {
       'type': type
     };
   }
+
+  factory Display.fromMap(Map<String, dynamic> map){
+    return Display(
+      sizeInches: map['sizeInches'] ?? 0, 
+      resolution: map['resolution'] ?? '', 
+      type: map['type'] ?? '',
+    );
+  }
 }
 
-class ProductDetailsType{
+class ProductDetailsModel{
+  final String? productDetailsID;
+  final String? productId;
   final BasicInfo basicInfo;
   final Battery battery;
   final OperatingSystem operatingSystem;
@@ -144,7 +197,8 @@ class ProductDetailsType{
   final Processor processor;
   final Display display;
 
-  ProductDetailsType({required this.basicInfo, required this.battery, required this.operatingSystem, required this.buildAndDesign, required this.memory, required this.processor, required this.display});
+  ProductDetailsModel({this.productDetailsID, 
+  this.productId, required this.basicInfo, required this.battery, required this.operatingSystem, required this.buildAndDesign, required this.memory, required this.processor, required this.display});
 
 
   Map<String, dynamic> toMap(){
@@ -159,15 +213,17 @@ class ProductDetailsType{
     };
   }
 
-  factory ProductDetailsType.fromMap(Map<String, dynamic> map){
-  return ProductDetailsType(
-  basicInfo: map['basicInfo'] ?? {}, 
-  battery: map['battery'] ?? {}, 
-  operatingSystem: map['operatingSystem'] ?? {}, 
-  buildAndDesign: map['buildAndDesign'] ?? {}, 
-  memory: map['memory']?? {}, 
-  processor: map['processor'] ?? {}, 
-  display: map['display'] ?? {}, 
+  factory ProductDetailsModel.fromMap(Map<String, dynamic> map){
+  return ProductDetailsModel(
+  productDetailsID: map['productDetailsID'] ?? '',
+  productId: map['productId'] ?? '',
+  basicInfo: BasicInfo.fromMap(map['basicInfo']) , 
+  battery: Battery.fromMap(map['batteryInfo']) , 
+  operatingSystem: OperatingSystem.fromMap(map['OSInfo']), 
+  buildAndDesign: BuildAndDesign.fromMap(map['designInfo'] ), 
+  memory: Memory.fromMap(map['memoryInfo']), 
+  processor: Processor.fromMap(map['processorInfo']), 
+  display: Display.fromMap(map['displayInfo']) , 
   );
 }
   
