@@ -9,17 +9,17 @@ class ProductModels{
     final List<String> images;
     final String category;
     final double price;
-    final double newDiscountPrice;
+    final double discountedPrice;
     final int? discountPercent;
     // final ProductDetailsType productDetails;
 
-  ProductModels({required this.productId, required this.newDiscountPrice, required this.productName, required this.productInfo, required this.isProductAvailable, required this.images, required this.category, required this.price, required this.discountPercent, 
+  ProductModels({required this.productId, required this.discountedPrice, required this.productName, required this.productInfo, required this.isProductAvailable, required this.images, required this.category, required this.price, required this.discountPercent, 
   // required this.productDetails
   });
 
 @override
 String toString(){
-  return 'ProductModels( productId: $productId, productName: $productName, productInfo: $productInfo, isProductAvailable: $isProductAvailable, images: $images, category: $category, price: $price, discountPercent: $discountPercent, discountedPrice: $newDiscountPrice)';
+  return 'ProductModels( productId: $productId, productName: $productName, productInfo: $productInfo, isProductAvailable: $isProductAvailable, images: $images, category: $category, price: $price, discountPercent: $discountPercent, discountedPrice: $discountedPrice)';
 }
   Map<String, dynamic> topMap(){
     return {
@@ -31,7 +31,7 @@ String toString(){
       'category': category,
       'price': price,
       'discountPercent': discountPercent,
-      'discountedPrice': newDiscountPrice,
+      'discountedPrice': discountedPrice,
       // 'productDetails': productDetails,
     };
   }
@@ -39,7 +39,7 @@ String toString(){
 factory ProductModels.fromMap(Map<String, dynamic> map){
   return ProductModels(
     productId: map['productId'] ?? '',
-  newDiscountPrice: map['newDiscountPrice'] ?? 0, 
+  discountedPrice: map['discountedPrice'] ?? 0, 
   productName: map['productName'] ?? '', 
   productInfo: map['productInfo'] ?? '', 
   isProductAvailable: map['isProductAvailable'] ?? true, 
