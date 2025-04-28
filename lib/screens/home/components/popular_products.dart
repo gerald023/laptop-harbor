@@ -27,12 +27,13 @@ class _PopularProductsState extends State<PopularProducts> {
   List<ProductModels>? popularProductData;
 
   Future<void> fetchPopularProducts() async{
-    
+    // print(await productService.getPopularProducts());
+    // return await productService.getPopularProducts();
     try{
-      final data = await ProductService().getPopularProducts();
+      // final data = await ProductService().getPopularProducts();
       // print(data);
       setState(() {
-        popularProductData = data;
+        // popularProductData = data;
       });
     }catch(e){
       print('error in the popular Product section: $e');
@@ -44,25 +45,28 @@ class _PopularProductsState extends State<PopularProducts> {
 @override
 void initState() {
   super.initState();
-  getPopularProducts();
+  initializeAndLoad();
 }
 
+Future<void> initializeAndLoad() async {
+  // Wait until Firebase is ready
+  await Future.delayed(Duration.zero); // ensures context is ready if needed
+
+  // Check if Firebase is already initialized (safe for web/mobile)
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
+  await getPopularProducts();
+}
 
   @override
   Widget build(BuildContext context) {
-    if (popularProductData == null) {
-      return const ProductsSkelton();
-    }
-    if (popularProductData!.isEmpty) {
-      return const Text('No Popular Products',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
-            color: Colors.black
-          ),
-      );
-    }
+    // if (popularProductData == null) {
+    //   return const Text('No Popular Product!');
+    // }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -75,41 +79,37 @@ void initState() {
           ),
         ),
         // While loading use 👇
-        
         // const ProductsSkelton(),
-         SizedBox(
-          height: 210,
-           child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            // Find demoPopularProducts on models/ProductModel.dart
-            itemCount: popularProductData!.length,
-            itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.only(
-                left: defaultPadding,
-                right: index == popularProductData!.length - 1
-                    ? defaultPadding
-                    : 0,
-              ),
-              child: ProductCard(
-                image: popularProductData![index].images[0],
-                brandName: popularProductData![index].productName,
-                title: popularProductData![index].productInfo,
-                price: popularProductData![index].price,
-                priceAfetDiscount: popularProductData![index].discountedPrice,
-                dicountpercent: popularProductData![index].discountPercent,
-                press: () {
-                  Navigator.pushNamed(context, productDetailsScreenRoute,
-                      arguments: popularProductData![index].productId);
-                },
-              ),
+         ListView.builder(
+          scrollDirection: Axis.horizontal,
+          // Find demoPopularProducts on models/ProductModel.dart
+          itemCount: popularProductData!.length,
+          itemBuilder: (context, index) => Padding(
+            padding: EdgeInsets.only(
+              left: defaultPadding,
+              right: index == popularProductData!.length - 1
+                  ? defaultPadding
+                  : 0,
             ),
-                   ),
-         ),
+            child: ProductCard(
+              image: popularProductData![index].images[0],
+              brandName: popularProductData![index].productName,
+              title: popularProductData![index].productInfo,
+              price: popularProductData![index].price,
+              priceAfetDiscount: popularProductData![index].newDiscountPrice,
+              dicountpercent: popularProductData![index].discountPercent,
+              press: () {
+                Navigator.pushNamed(context, productDetailsScreenRoute,
+                    arguments: index.isEven);
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
 
-
+  
 }
 
 
