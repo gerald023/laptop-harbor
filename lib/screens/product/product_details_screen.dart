@@ -23,7 +23,7 @@ import './product_information_screen.dart';
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.productId });
 
-  final String productId;
+  final String productId; 
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -70,12 +70,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       return Scaffold(
       bottomNavigationBar: true
           ? CartButton(
-              price: 140,
+              price: _productModels!.discountedPrice < 1 ? _productModels!.price : _productModels!.discountedPrice,
               press: () {
                 customModalBottomSheet(
                   context,
                   height: MediaQuery.of(context).size.height * 0.92,
-                  child: const ProductBuyNowScreen(),
+                  child:  ProductBuyNowScreen(
+                    productDetailsModel: productDetails!,
+                    productModels: _productModels!,
+                  ),
                 );
               },
             )

@@ -100,7 +100,7 @@ void initState() {
                 press: () {
                   Navigator.pushNamed(context, productDetailsScreenRoute,
                       arguments: popularProductData![index].productId);
-                },
+                }, 
               ),
             ),
                    ),

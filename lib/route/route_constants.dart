@@ -3,6 +3,15 @@ const String notificationPermissionScreenRoute = "notification_permission";
 const String preferredLanuageScreenRoute = "preferred_language";
 const String logInScreenRoute = "login";
 const String signUpScreenRoute = "signup";
+
+const String userProfileScreenRoute = 'user_profile';
+const String feedBackScreenRoute = 'feed_back';
+const String addressScreenRoute = 'address_screen';
+const String addAddressScreenRoute = 'add_address';
+const String editAddressScreenRoute = 'edit_address';
+
+const String emptyCartScreenRoute = 'empty_cart';
+
 const String profileSetupScreenRoute = "profile_setup";
 const String signUpVerificationScreenRoute = "signup_verification";
 const String passwordRecoveryScreenRoute = "password_recovery";
@@ -59,3 +68,5 @@ const String cartScreenRoute = "cart";
 const String paymentMethodScreenRoute = "payment_method";
 const String addNewCardScreenRoute = "add_new_card";
 const String thanksForOrderScreenRoute = "thanks_order";
+
+const String fundAccountScreenRoute = 'fund_account';

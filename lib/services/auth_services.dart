@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'package:aptech_project/models/account_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 
 
@@ -60,6 +63,11 @@ class AuthService{
 
         // Send email verification
         await user.sendEmailVerification();
+        print('userId: ${user.uid} \n userName: $name');
+        await createUserAccount(
+          accountName: name,
+          userId: user.uid
+        );
         print('email sent!!');
         return null;
       }
@@ -106,6 +114,7 @@ class AuthService{
             'isAdmin': isAdmin,
             'message': null
           };
+          
         }else {
           return {
             'isAdmin': false,
@@ -166,5 +175,40 @@ class AuthService{
     }catch(e){
       print(e);
     }
+  }
+
+  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+
+    Future<void> createUserAccount({
+      required String userId,
+      required String accountName
+    }) async {
+      try{
+          final String accountId = const Uuid().v4();
+        print('from create account method: \n userName: $accountName \n userId: $userId');
+    final account = AccountModel(
+      currency: 'USD',
+      accountId: accountId,
+      userId: userId,
+      accountName: accountName,
+      accountBalance: 0.0,
+
+    );
+    print('accountName: ${account.accountName} \n account: $account');
+    
+  print('creating your account');
+    await _firestore.collection('Accounts').doc(accountId).set({
+      'accountId': accountId,
+      'userId': userId,
+      'accountName': accountName,
+      'accountBalance': 0.0,
+      'currency': 'USD',
+      'createdAt': DateTime.now()
+    });
+    await _secureStorage.write(key: 'accountId', value: accountId);
+    print('accountName: ${account.accountName} \n account: $account');
+      }catch(e){
+        print('error while creating account: $e');
+      }
   }
 }
