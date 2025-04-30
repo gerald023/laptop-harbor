@@ -78,7 +78,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case signUpScreenRoute:
       return MaterialPageRoute(
-        builder: (context) =>  SignUpScreen(),
+        builder: (context) => SignUpScreen(),
       );
       case userProfileScreenRoute:
       return MaterialPageRoute(
@@ -150,17 +150,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case productDetailsScreenRoute:
       return MaterialPageRoute(
         builder: (context) {
-          String productId = settings.arguments as String? ?? '';
-          return ProductDetailsScreen(productId: productId);
+          bool isProductAvailable = settings.arguments as bool? ?? true;
+          return ProductDetailsScreen(isProductAvailable: isProductAvailable);
         },
       );
-      case createProductScreenRoute:
+    case createProductScreenRoute:
       return MaterialPageRoute(
-           builder: (context) =>  const CreateProductScreen(),
+        builder: (context) => const CreateProductScreen(),
       );
-      case addProductDetailsScreenRoute:
+    case addProductDetailsScreenRoute:
       return MaterialPageRoute(
-           builder: (context) =>  const AddProductDetailsScreen(),
+        builder: (context) => const AddProductDetailsScreen(),
       );
     // case productReviewsScreenRoute:
     //   return MaterialPageRoute(
@@ -213,6 +213,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case entryPointScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const EntryPoint(),
+      );
+    case productListRoute:
+      return MaterialPageRoute(
+        builder: (context) => LaptopListPage(),
+      );
+    case cartRoute:
+      return MaterialPageRoute(
+        builder: (context) => const CartScreen(),
       );
     // case profileScreenRoute:
     //   return MaterialPageRoute(

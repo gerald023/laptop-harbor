@@ -78,7 +78,7 @@ class _AddProductDetailsFormState extends State<AddProductDetailsForm> {
   }
   
 
- ProductDetailsModel _getProductDetailsData(){
+ ProductDetailsType _getProductDetailsData(){
     Battery batteryData = Battery(
     chargingType: chargingTypeController!,
     backupHours: double.parse(batteryBackupHoursController!),
@@ -112,7 +112,7 @@ class _AddProductDetailsFormState extends State<AddProductDetailsForm> {
     type: displayTypeController!,
     sizeInches: double.parse(sizedInchesController!)
   );
-  return ProductDetailsModel(
+  return ProductDetailsType(
     basicInfo: basicInfoData,
     battery: batteryData,
     buildAndDesign: buildAndDesignData,
@@ -134,7 +134,6 @@ Future<void> _addProductDetails(BuildContext context)async{
     _isLoading = true;
   });
   try{
-    final productDetailsData =  _getProductDetailsData();
     final data = await _getProductDetailsData();
     final response = await productService.AddProductDetails(
       OSInfo: data.operatingSystem,
