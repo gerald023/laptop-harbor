@@ -23,7 +23,9 @@ List<CategoryModel> demoCategories = [
       svgSrc: "assets/icons/Sale.svg",
       route: createProductScreenRoute),
   CategoryModel(name: "Gaming", svgSrc: "assets/icons/game_pad.svg", route: addProductDetailsScreenRoute),
-  CategoryModel(name: "Business", svgSrc: "assets/icons/business_logo.svg"),
+  CategoryModel(name: "Business", svgSrc: "assets/icons/business_logo.svg",
+  
+  ),
   CategoryModel(
       name: "Work Station", svgSrc: "assets/icons/work_logo.svg", route: kidsScreenRoute),
 ];

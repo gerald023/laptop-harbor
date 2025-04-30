@@ -1,8 +1,11 @@
 import 'package:animations/animations.dart';
+import 'package:aptech_project/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:aptech_project/constants.dart';
 import 'package:aptech_project/route/screen_export.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 
 class EntryPoint extends StatefulWidget {
@@ -13,12 +16,16 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> {
+  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+
+
   final List _pages = const [
     HomeScreen(),
     DiscoverScreen(),
     BookmarkScreen(),
     // EmptyCartScreen(), // if Cart is empty
     // CartScreen(),
+    NewCartScreen(),
     ProfileScreen(),
   ];
   int _currentIndex = 0;
@@ -78,8 +85,12 @@ class _EntryPointState extends State<EntryPoint> {
             ),
           ),
           IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, notificationsScreenRoute);
+            onPressed: () async{
+              String? accountId = await _secureStorage.read(key: 'accountId');
+                  Navigator.pushNamed(context, fundAccountScreenRoute,
+                      arguments: accountId);
+              // Navigator.pushNamed(context, notificationsScreenRoute);
+              
             },
             icon: SvgPicture.asset(
               "icons/Notification.svg",

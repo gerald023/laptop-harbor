@@ -1,3 +1,6 @@
+import 'package:aptech_project/models/product_models.dart';
+import 'package:aptech_project/services/product_services.dart';
+import 'package:aptech_project/types/product_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:aptech_project/components/cart_button.dart';
@@ -15,24 +18,56 @@ import 'components/selected_size.dart';
 import 'components/unit_price.dart';
 
 class ProductBuyNowScreen extends StatefulWidget {
-  const ProductBuyNowScreen({super.key});
+  final ProductModels productModels;
+  final ProductDetailsModel productDetailsModel;
+  const ProductBuyNowScreen({super.key, required this.productModels, required this.productDetailsModel});
 
   @override
   _ProductBuyNowScreenState createState() => _ProductBuyNowScreenState();
 }
 
 class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
+  int productQuantity = 1;
+  late final double price;
+  late final double totalPrice;
+
+  void getCartInfo (){
+    setState(() {
+      price =  widget.productModels.discountedPrice == 0 ? widget.productModels.price : widget.productModels.discountedPrice;
+      totalPrice = price * productQuantity;
+    });
+  }
+  void increaseCartQauntity(bool isIncrease){
+    if (isIncrease && productQuantity < widget.productDetailsModel.basicInfo.stockQuantity) {
+      setState(() {
+      productQuantity++;
+    });
+    }
+    else if(!isIncrease && productQuantity > 1){
+      setState(() {
+      productQuantity--;
+    });
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    getCartInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CartButton(
-        price: 269.4,
+        price: price,
         title: "Add to cart",
-        subTitle: "Total price",
-        press: () {
+        subTitle: "Total price: $totalPrice",
+        press: () async{
+          ProductService().addProductToCart(widget.productModels.productId, productQuantity);
           customModalBottomSheet(
             context,
             isDismissible: false,
+            
             child: const AddedToCartMessageScreen(),
           );
         },
@@ -47,7 +82,7 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
               children: [
                 const BackButton(),
                 Text(
-                  "Sleeveless Ruffle",
+                  widget.productModels.productName,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 IconButton(
@@ -61,12 +96,12 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
           Expanded(
             child: CustomScrollView(
               slivers: [
-                const SliverToBoxAdapter(
+                 SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultPadding),
                     child: AspectRatio(
                       aspectRatio: 1.05,
-                      child: NetworkImageWithLoader(productDemoImg1),
+                      child: NetworkImageWithLoader(widget.productModels.images[0]),
                     ),
                   ),
                 ),
@@ -76,16 +111,20 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: UnitPrice(
-                            price: 145,
-                            priceAfterDiscount: 134.7,
+                            price: widget.productModels.price,
+                            priceAfterDiscount: widget.productModels.discountedPrice,
                           ),
                         ),
                         ProductQuantity(
-                          numOfItem: 2,
-                          onIncrement: () {},
-                          onDecrement: () {},
+                          numOfItem: productQuantity,
+                          onIncrement: () {
+                            increaseCartQauntity(true);
+                          },
+                          onDecrement: () {
+                            increaseCartQauntity(false);
+                          },
                         ),
                       ],
                     ),
@@ -95,11 +134,11 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                 SliverToBoxAdapter(
                   child: SelectedColors(
                     colors: const [
-                      Color(0xFFEA6262),
-                      Color(0xFFB1CC63),
-                      Color(0xFFFFBF5F),
-                      Color(0xFF9FE1DD),
-                      Color(0xFFC482DB),
+                      Color(0x00000000),
+                      Color.fromARGB(255, 118, 124, 97),
+                      Color.fromARGB(255, 209, 68, 3),
+                      Color.fromARGB(255, 14, 102, 96),
+                      Color.fromARGB(255, 10, 33, 238),
                     ],
                     selectedColorIndex: 2,
                     press: (value) {},
@@ -107,7 +146,7 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                 ),
                 SliverToBoxAdapter(
                   child: SelectedSize(
-                    sizes: const ["S", "M", "L", "XL", "XXL"],
+                    sizes: const ["14\"", "15\"", "16\"",],
                     selectedIndex: 1,
                     press: (value) {},
                   ),

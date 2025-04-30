@@ -3,6 +3,13 @@ export 'package:aptech_project/screens/authentication/views/login_screen.dart';
 // export '/screens/authentication/views/password_recovery_screen.dart';
 export '/screens/authentication/views/signup_screen.dart';
 
+export 'package:aptech_project/screens/profile/userProfileScreen.dart';
+export 'package:aptech_project/screens/feedback/feedback_screen.dart';
+
+export 'package:aptech_project/screens/address/address_screen.dart';
+export 'package:aptech_project/screens/address/add_address_screen.dart';
+export 'package:aptech_project/screens/address/edit_address_screen.dart';
+
 export '/route/route_constants.dart';
 export '/screens/bookmark/bookmark_screen.dart';
 export '/screens/discover/discover_screen.dart';
@@ -16,7 +23,11 @@ export 'package:aptech_project/screens/product/add_product_details_screen.dart';
 // export '/screens/reviews/view/product_reviews_screen.dart';
 export '/screens/search/search_screen.dart';
 // export '/screens/address/views/addresses_screen.dart';
-// export '/screens/checkout/views/cart_screen.dart';
+export '/screens/cart/cart_screen.dart';
+export '/screens/cart/new_cart_screen.dart';
+export 'package:aptech_project/screens/cart/empty_cart_screen.dart';
+
+export 'package:aptech_project/screens/transactions/fund_account_screen.dart';
 
 // export '/screens/notification/view/enable_notification_screen.dart';
 // export '/screens/notification/view/no_notification_screen.dart';

@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
             // proLableText: "Sliver",
             // isPro: true, if the user is pro
             press: () {
-              Navigator.pushNamed(context, userInfoScreenRoute);
+              Navigator.pushNamed(context, userProfileScreenRoute);
             },
           ),
           Padding(
@@ -68,7 +68,7 @@ class ProfileScreen extends StatelessWidget {
             text: "Addresses",
             svgSrc: "assets/icons/Address.svg",
             press: () {
-              Navigator.pushNamed(context, addressesScreenRoute);
+              Navigator.pushNamed(context, addressScreenRoute);
             },
           ),
           ProfileMenuListTile(
@@ -150,6 +150,14 @@ class ProfileScreen extends StatelessWidget {
             text: "FAQ",
             svgSrc: "assets/icons/FAQ.svg",
             press: () {},
+            isShowDivider: false,
+          ),
+          ProfileMenuListTile(
+            text: "Feedback",
+            svgSrc: "icons/feedbackIcon.svg",
+            press: () {
+              Navigator.pushNamed(context, feedBackScreenRoute);
+            },
             isShowDivider: false,
           ),
           const SizedBox(height: defaultPadding),

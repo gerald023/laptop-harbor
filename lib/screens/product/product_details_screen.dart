@@ -1,3 +1,6 @@
+import 'package:aptech_project/components/skleton/product/products_skelton.dart';
+import 'package:aptech_project/models/product_models.dart';
+import 'package:aptech_project/types/product_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:aptech_project/components/buy_full_ui_kit.dart';
@@ -7,30 +10,75 @@ import 'package:aptech_project/components/product/product_card.dart';
 import 'package:aptech_project/constants.dart';
 import 'package:aptech_project/screens/product/product_returns_screen.dart';
 import 'package:aptech_project/route/screen_export.dart';
-
+import 'package:aptech_project/services/product_services.dart';
 import 'components/notify_me_card.dart';
 import 'components/product_images.dart';
 import 'components/product_info.dart';
 import 'components/product_list_tile.dart';
 import '../../components/review_card.dart';
 import 'product_buy_now_screen.dart';
+import './product_information_screen.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key, this.isProductAvailable = true});
 
-  final bool isProductAvailable;
+class ProductDetailsScreen extends StatefulWidget {
+  const ProductDetailsScreen({super.key, required this.productId });
+
+  final String productId; 
 
   @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  ProductDetailsModel? productDetails;
+  ProductModels? _productModels;
+  List<String>? _productImages;
+
+  Future<void> getProductDetails () async{
+    try {
+      final data = await ProductService().getProductDetail(widget.productId);
+      final product = await ProductService().getProductById(widget.productId);
+      // print(product);
+      print('product Id: ${widget.productId}');
+      // print(data!.buildAndDesign);
+      print( 'product details:  ${data!.basicInfo.productName}');
+      setState(() {
+        productDetails = data;
+        _productModels = product;
+        _productImages = product!.images;
+      });
+    } catch (e) {
+      print('error while getting product Id: $e');
+    }
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    getProductDetails();
+  }
+   
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: isProductAvailable
+    if (productDetails == null) {
+      return const ProductsSkelton();
+    }
+    // final productId = ModalRoute.of(context)!.settings.arguments as String;
+    // print(productId);
+    // getProductDetails(productId);
+    else {
+      return Scaffold(
+      bottomNavigationBar: true
           ? CartButton(
-              price: 140,
+              price: _productModels!.discountedPrice < 1 ? _productModels!.price : _productModels!.discountedPrice,
               press: () {
                 customModalBottomSheet(
                   context,
                   height: MediaQuery.of(context).size.height * 0.92,
-                  child: const ProductBuyNowScreen(),
+                  child:  ProductBuyNowScreen(
+                    productDetailsModel: productDetails!,
+                    productModels: _productModels!,
+                  ),
                 );
               },
             )
@@ -55,15 +103,14 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const ProductImages(
-              images: [productDemoImg1, productDemoImg2, productDemoImg3],
+            ProductImages(
+              images: _productImages ?? []
             ),
             ProductInfo(
-              brand: "LIPSY LONDON",
-              title: "Sleeveless Ruffle",
-              isAvailable: isProductAvailable,
-              description:
-                  "A cool gray cap in soft corduroy. Watch me.' By buying cotton products from Lindex, you’re supporting more responsibly...",
+              brand: "",
+              title: _productModels!.productName,
+              isAvailable: true,
+              description: _productModels!.productInfo,
               rating: 4.4,
               numOfReviews: 126,
             ),
@@ -74,7 +121,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 customModalBottomSheet(
                   context,
                   height: MediaQuery.of(context).size.height * 0.92,
-                  child: const Text('Product Details')
+                child:   ProductInformationScreen(productDetails: productDetails!,)
                 );
               },
             ),
@@ -85,7 +132,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 customModalBottomSheet(
                   context,
                   height: MediaQuery.of(context).size.height * 0.92,
-                  child: const Text('Shipping Information'),
+                  child:  const ProductReturnsScreen(),
                 );
               },
             ),
@@ -162,5 +209,6 @@ class ProductDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+    }
   }
 }

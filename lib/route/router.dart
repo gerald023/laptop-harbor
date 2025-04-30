@@ -80,6 +80,25 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => SignUpScreen(),
       );
+      case userProfileScreenRoute:
+      return MaterialPageRoute(
+        builder: (context)=> const Userprofilescreen(),
+      );
+      case feedBackScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const FeedbackScreen(),
+      );
+      case addAddressScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const AddAddressScreen(),
+      );
+      case editAddressScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const EditAddressScreen(),
+      );case addressScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const AddressEntryPointScreen(),
+      );
     // case profileSetupScreenRoute:
     //   return MaterialPageRoute(
     //     builder: (context) => const ProfileSetupScreen(),
@@ -299,10 +318,23 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //   return MaterialPageRoute(
     //     builder: (context) => const WalletScreen(),
     //   );
-    // case cartScreenRoute:
-    //   return MaterialPageRoute(
-    //     builder: (context) => const CartScreen(),
-    //   );
+    case cartScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const CartScreen(),
+      );
+      case emptyCartScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const EmptyCartScreen(),
+      );
+     
+      case fundAccountScreenRoute:
+      return MaterialPageRoute(
+
+        builder: (context){
+          String accountId = settings.arguments as String? ?? '';
+          return FundAccountScreen(accountId: accountId);
+        }
+      );
     // case paymentMethodScreenRoute:
     //   return MaterialPageRoute(
     //     builder: (context) => const PaymentMethodScreen(),
