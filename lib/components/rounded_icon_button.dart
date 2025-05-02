@@ -7,10 +7,10 @@ class RoundedIconButton extends StatelessWidget {
   final IconData iconData;
   final GestureTapCallback press;
   const RoundedIconButton({
-    Key? key,
+    super.key,
     required this.iconData,
     required this.press,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

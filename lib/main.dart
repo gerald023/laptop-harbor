@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aptech_project/route/route_constants.dart';
 import 'package:aptech_project/route/router.dart' as router;
-import 'screens/onboarding/onboarding_screen.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   try{

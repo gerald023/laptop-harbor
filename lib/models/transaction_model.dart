@@ -3,27 +3,27 @@ class TransactionModel {
   final String? userId;
   final double amount;
   final String purpose;
-  final MyTransactionStatus status;
-  final DateTime timestamp;
+  final MyTransactionStatus? status;
+  final DateTime? timestamp;
   final String paymentMethod;
   final String reference;
   final String currency;
   final String description;
-  final bool isRefunded;
+  final bool? isRefunded;
   final Map<String, dynamic>? metadata;
 
    TransactionModel({
     this.transactionId,
     this.userId,
+    this.status,
+    this.timestamp,
+    this.isRefunded,
     required this.amount,
     required this.purpose,
-    required this.status,
-    required this.timestamp,
     required this.paymentMethod,
     required this.reference,
     required this.currency,
     required this.description,
-    required this.isRefunded,
     this.metadata,
   });
 
@@ -50,8 +50,8 @@ class TransactionModel {
       'userId': userId,
       'amount': amount,
       'purpose': purpose,
-      'status': status.value,
-      'timestamp': timestamp.toIso8601String(),
+      'status': status!.value,
+      'timestamp': timestamp!.toIso8601String(),
       'paymentMethod': paymentMethod,
       'reference': reference,
       'currency': currency,

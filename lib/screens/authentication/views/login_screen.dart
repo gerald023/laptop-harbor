@@ -1,6 +1,5 @@
 import 'package:aptech_project/screens/authentication/common_widgets/login_form.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:aptech_project/route/route_constants.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -15,15 +14,16 @@ class LoginScreen extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
                 children: [
-                  SizedBox(height: constraints.maxHeight * 0.1),
+                  const SizedBox(height: 30),
                   Image.network(
-                    "https://i.postimg.cc/nz0YBQcH/Logo-light.png",
-                    height: 100,
+                    "https://i.postimg.cc/CxTcnYG2/Laptop-Harbor-Logo.png",
+                    height: 200,
+                    width: 200,
                   ),
-                  SizedBox(height: constraints.maxHeight * 0.1),
+                  const SizedBox(height: 30),
                   Text(
                     "Sign In",
                     style: Theme.of(context)

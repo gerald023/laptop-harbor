@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:aptech_project/constants.dart';
 import './components/create_product_form.dart';
 
 

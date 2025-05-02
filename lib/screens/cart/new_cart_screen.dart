@@ -1,10 +1,16 @@
+import 'package:aptech_project/components/custom_button.dart';
 import 'package:aptech_project/models/cart_model.dart';
+import 'package:aptech_project/models/transaction_model.dart';
 import 'package:aptech_project/route/screen_export.dart';
 import 'package:aptech_project/services/product_services.dart';
+import 'package:aptech_project/services/transactions_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import './components/cart_product_quantity.dart';
+import 'package:uuid/uuid.dart';
+// import './components/cart_product_quantity.dart';
 
+
+const uuid = Uuid();
 class NewCartScreen extends StatefulWidget {
   const NewCartScreen({super.key});
 
@@ -14,7 +20,45 @@ class NewCartScreen extends StatefulWidget {
 
 class _NewCartScreenState extends State<NewCartScreen> {
   Future<CartModel?>? _cartFuture; // Make it a Future that can be null
+  bool isLoading = false;
 
+  Future<void> checkout(CartModel cart) async{
+    try{
+      setState(() {
+        isLoading = true;
+      });
+      final TransactionModel transactionData = TransactionModel(
+        amount: cart.totalPrice,
+        purpose: 'purchase',
+        paymentMethod: 'wallet',
+        reference: uuid.v8(),
+        currency: 'USD',
+        description: 'purchasing cart items.',
+        );
+        final res = await TransactionService().placeOrder(transactionData, cart);
+        switch (res) {
+          case 'No delivery address found':
+             Navigator.pushNamed(context, addressScreenRoute);
+            break;
+            case 'Order placed successfully':
+             Navigator.pushNamed(context, orderHistoryScreenRoute);
+            break;
+            case 'Transaction failed':
+             Navigator.pushNamed(context, transactionFailedScreenRoute);
+            break;
+          default:
+        }
+        print(res);
+        setState(() {
+        isLoading = false;
+      });
+    }catch(e){
+      print('error while on checkout: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   void initState() {
     super.initState();
@@ -50,7 +94,7 @@ class _NewCartScreenState extends State<NewCartScreen> {
                     onDismissed: (direction) async{
                       await ProductService().removeCartItem(cartList.cartItems[index].productId);
                       setState(() {
-                        
+                        _cartFuture = ProductService().getCartItems();
                       });
                     },
                     background: Container(
@@ -100,6 +144,10 @@ class _NewCartScreenState extends State<NewCartScreen> {
             return CheckoutCard(
               totalPrice: snapshot.data!.totalPrice,
               totalQuantity: snapshot.data!.totalItem,
+              onPress: () {
+                checkout(snapshot.data as CartModel);
+              },
+              isLoading: isLoading,
             );
           } else {
             return const SizedBox.shrink(); // Or some other placeholder if cart data isn't loaded
@@ -160,18 +208,7 @@ class _CartCardState extends State<CartCard> {
     if (unitPrice == null) return;
 
     int updatedQuantity = newQuantity; 
-      // if (isIncrease) {
-      //   setState(() {
-      //     newQuantity++;
-      //   });
-      //   await ProductService().updateCartItemQuantity(widget.productId, newQuantity);
-      // }
-      // else if(!isIncrease){
-      //    setState(() {
-      //     newQuantity--;
-      //   });
-      //   await ProductService().removeCartItem(widget.productId);
-      // }
+     
        if (isIncrease) {
       updatedQuantity++;
     } else {
@@ -247,16 +284,16 @@ class _CartCardState extends State<CartCard> {
                         fontWeight: FontWeight.w600, color: Colors.black),
                   ),
                 ),
-                const SizedBox(width: 30),
+                const SizedBox(width: 20),
                 
-                Text('total Items: ${widget.quantity}',
+                Text('#${widget.quantity}',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17
                   ),
                 ),
 
-                  const SizedBox(width: 30,),
+                  const SizedBox(width: 10,),
                   Text('total: \$$totalPrice')
               ],
             )
@@ -269,10 +306,13 @@ class _CartCardState extends State<CartCard> {
 
 class CheckoutCard extends StatelessWidget {
   const CheckoutCard({
-    Key? key, required this.totalQuantity, required this.totalPrice,
-  }) : super(key: key);
+    super.key, required this.totalQuantity, required this.totalPrice, required this.onPress, required this.isLoading,
+  });
   final int totalQuantity;
   final double totalPrice;
+  final VoidCallback onPress;
+  final bool isLoading;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -333,31 +373,19 @@ class CheckoutCard extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: "\$ $totalPrice",
-                          style: TextStyle(fontSize: 16, color: Colors.black),
+                          style: const TextStyle(fontSize: 16, color: Colors.black),
                         ),
                       ],
                     ),
                   ),
                 ),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.black,
-                      minimumSize: const Size(double.infinity, 48),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                      ),
-                    ),
-                    child: const Text("Check Out",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white
-                    ),
-                    ),
-                  ),
+                  child: CustomButton(
+                    buttonText: 'Checkout',
+                    onPressed: onPress,
+                    isLoading: isLoading,
+                    backgroundColor: Colors.black,
+                  )
                 ),
               ],
             ),

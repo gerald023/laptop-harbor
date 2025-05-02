@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aptech_project/components/textField_widget.dart';
 import 'package:aptech_project/components/custom_button.dart';
 // import 'package:aptech_project/core/utils/toaster_utils.dart';
-import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:aptech_project/route/route_constants.dart';
 
 
@@ -62,23 +60,29 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     });
     if (errorMessage?['message'] == null) {
       if (isAdmin) {
-        // await prefs.setBool('isAdmin', true);
-        // Get.offNamed('/admin-main');
+                 ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login Successful!')),
+      );
         Navigator.pushNamed(context, entryPointScreenRoute);
+
       } else {
-        // Get.offNamed('/main');
+
+             ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login Successful!')),
+      );
         Navigator.pushNamed(context, entryPointScreenRoute);
       }
     } else {
       final error = errorMessage?['message'] ?? 'An unknown error occurred';
-      // Show error message using a SnackBar
-      // ToasterUtils.showCustomSnackBar(context, error);
+                  ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(content: Text('Login Failed! \n $error')),
+      );
     }
     }catch(e){
       setState(() {
       _isLoading = false;
     });
-    // ToasterUtils.showCustomSnackBar(context, 'An error occurred');
+    SnackBar(content: Text( 'Error: \n $e'));
     }
     
   

@@ -1,4 +1,5 @@
 import 'package:aptech_project/components/custom_button.dart';
+import 'package:aptech_project/route/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:aptech_project/services/transactions_service.dart';
 
@@ -35,6 +36,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(success ? 'Address added!' : 'Failed to add address')),
       );
+      Navigator.pushNamed(context, addressScreenRoute);
 
       if (success) Navigator.pop(context);
     }

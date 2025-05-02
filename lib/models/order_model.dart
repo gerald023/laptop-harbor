@@ -1,36 +1,36 @@
-import 'package:aptech_project/models/cart_item_model.dart';
+import 'package:aptech_project/models/cart_model.dart';
 
 import './address_model.dart';
 
 class OrderModel{
   final String orderId;
   final AddressModel address;
-  final List<CartItemModel> items;
+  final CartModel cart;
   final MyOrderStatus status;
   final DateTime startTime;
   final DateTime endTime;
 
-  OrderModel({required this.orderId, required this.address, required this.items, required this.status, required this.startTime, required this.endTime});
+  OrderModel({required this.orderId, required this.address, required this.cart, required this.status, required this.startTime, required this.endTime});
 
   Map<String, dynamic> toMap(){
     return {
       'orderId': orderId,
-      'address': address,
-      'items': items.map((item) => item.toMap()).toList(),
+      'address': address.toMap(),
+      'cart': cart.toMap(),
       'status': status.value,
       'startTime': startTime.toIso8601String(),
-      'endTime': endTime.toIso8601String()
+      'endTime': endTime.toIso8601String(),
     };
   }
   
 
   factory OrderModel.fromMap(Map<String, dynamic> map){
     return OrderModel(
-      orderId: map['orderId'], 
-      address: map['address'], 
-      items: (map['items'] as List<dynamic> ? )?.map((item) => CartItemModel.fromMap(item as Map<String, dynamic>)).toList() ?? [], 
-      status: MyOrderStatusExtension.fromString(map['status']), 
-      startTime: DateTime.parse(map['startTime']), 
+      orderId: map['orderId'],
+      address: AddressModel.fromMap(map['address']),
+      cart: CartModel.fromMap(map['cart']),
+      status: MyOrderStatusExtension.fromString(map['status']),
+      startTime: DateTime.parse(map['startTime']),
       endTime: DateTime.parse(map['endTime'])
     );
   }

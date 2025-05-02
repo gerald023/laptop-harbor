@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aptech_project/entry_point.dart';
-
+import 'package:aptech_project/models/userModel.dart';
 import 'screen_export.dart';
 
 // Yuo will get 50+ screens and more once you have the full template
@@ -82,7 +82,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
       case userProfileScreenRoute:
       return MaterialPageRoute(
-        builder: (context)=> const Userprofilescreen(),
+        builder: (context)=> const UserProfileScreen(),
+      );
+      case editProfileScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          return const EditProfileScreen();
+        },
+      );
+      case profileScreenRoute:
+      return MaterialPageRoute(
+        builder: (context)=> const ProfileScreen(),
       );
       case feedBackScreenRoute:
       return MaterialPageRoute(
@@ -98,6 +108,19 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );case addressScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const AddressEntryPointScreen(),
+      );
+
+      case orderHistoryScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const OrderHistoryScreen(),
+      );
+       case emptyOrderHistoryScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const EmptyOrderHistoryScreen(),
+      );
+       case paymentSuccessfulScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const PaymentSuccessfulScreen(),
       );
     // case profileSetupScreenRoute:
     //   return MaterialPageRoute(
@@ -150,8 +173,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case productDetailsScreenRoute:
       return MaterialPageRoute(
         builder: (context) {
-          bool isProductAvailable = settings.arguments as bool? ?? true;
-          return ProductDetailsScreen(isProductAvailable: isProductAvailable);
+          String productId = settings.arguments as String;
+          return ProductDetailsScreen(productId: productId,);
         },
       );
     case createProductScreenRoute:
@@ -161,6 +184,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case addProductDetailsScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const AddProductDetailsScreen(),
+      );
+      case productCategoryScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          String category = settings.arguments as String;
+          return ProductCategoryScreen(category: category);
+        },
       );
     // case productReviewsScreenRoute:
     //   return MaterialPageRoute(
@@ -320,13 +350,18 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //   );
     case cartScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => const CartScreen(),
+        builder: (context) => const NewCartScreen(),
       );
+      
       case emptyCartScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const EmptyCartScreen(),
       );
      
+     case transactionFailedScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const TransactionFailedScreen(),
+      );
       case fundAccountScreenRoute:
       return MaterialPageRoute(
 

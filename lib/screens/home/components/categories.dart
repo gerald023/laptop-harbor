@@ -22,9 +22,9 @@ List<CategoryModel> demoCategories = [
       name: "On Sale",
       svgSrc: "assets/icons/Sale.svg",
       route: createProductScreenRoute),
-  CategoryModel(name: "Gaming", svgSrc: "assets/icons/game_pad.svg", route: addProductDetailsScreenRoute),
+  CategoryModel(name: "Gaming", svgSrc: "assets/icons/game_pad.svg", route: productCategoryScreenRoute),
   CategoryModel(name: "Business", svgSrc: "assets/icons/business_logo.svg",
-  
+  route: productCategoryScreenRoute,
   ),
   CategoryModel(
       name: "Work Station", svgSrc: "assets/icons/work_logo.svg", route: kidsScreenRoute),
@@ -55,7 +55,9 @@ class Categories extends StatelessWidget {
                 isActive: index == 0,
                 press: () {
                   if (demoCategories[index].route != null) {
-                    Navigator.pushNamed(context, demoCategories[index].route!);
+                    Navigator.pushNamed(context, demoCategories[index].route!,
+                    arguments: demoCategories[index].name.toLowerCase()
+                    );
                   }
                 },
               ),

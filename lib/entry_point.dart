@@ -26,7 +26,7 @@ class _EntryPointState extends State<EntryPoint> {
     // EmptyCartScreen(), // if Cart is empty
     // CartScreen(),
     NewCartScreen(),
-    ProfileScreen(),
+    UserProfileScreen(),
   ];
   int _currentIndex = 0;
 
@@ -72,18 +72,6 @@ class _EntryPointState extends State<EntryPoint> {
           ],
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, searchScreenRoute);
-            },
-            icon: SvgPicture.asset(
-              "icons/Search.svg",
-              height: 24,
-              colorFilter: ColorFilter.mode(
-                  Theme.of(context).textTheme.bodyLarge!.color!,
-                  BlendMode.srcIn),
-            ),
-          ),
           IconButton(
             onPressed: () async{
               String? accountId = await _secureStorage.read(key: 'accountId');

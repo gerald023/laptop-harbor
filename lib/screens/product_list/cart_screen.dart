@@ -6,7 +6,7 @@ import 'widgets/cart_item_widget.dart';
 class CartScreen extends ConsumerWidget {
   static const routeName = '/cart';
 
-  const CartScreen({Key? key}) : super(key: key);
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -97,7 +97,7 @@ class CartScreen extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.shopping_cart_outlined,
                           size: 100,
                           color: Colors.grey,
@@ -115,10 +115,10 @@ class CartScreen extends ConsumerWidget {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: const Text('Start Shopping'),
                           style: TextButton.styleFrom(
                             foregroundColor: Theme.of(context).primaryColor,
                           ),
+                          child: const Text('Start Shopping'),
                         ),
                       ],
                     ),

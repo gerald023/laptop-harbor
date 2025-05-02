@@ -18,7 +18,7 @@ Future<bool> showConfirmationDialog(
           TextButton(
             child: Text(
               positiveResponse,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -29,7 +29,7 @@ Future<bool> showConfirmationDialog(
           TextButton(
             child: Text(
               negativeResponse,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -41,6 +41,6 @@ Future<bool> showConfirmationDialog(
       );
     },
   );
-  if (result == null) result = false;
+  result ??= false;
   return result;
 }

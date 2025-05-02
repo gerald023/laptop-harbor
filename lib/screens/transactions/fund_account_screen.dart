@@ -41,7 +41,7 @@ class _FundAccountScreenState extends State<FundAccountScreen> {
 
     if (amount.isEmpty || txnToken.isEmpty || mid.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill all fields')),
+        const SnackBar(content: Text('Please fill all fields')),
       );
       return;
     }
@@ -55,12 +55,12 @@ class _FundAccountScreenState extends State<FundAccountScreen> {
 
       if (res) {
         ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Account funded successfully!')),
+        const SnackBar(content: Text('Account funded successfully!')),
       );
       }
       else{
         ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Account not funded')),
+        const SnackBar(content: Text('Account not funded')),
       );
       }
     } catch (e) {
@@ -76,7 +76,7 @@ class _FundAccountScreenState extends State<FundAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fund Wallet with Paytm'),
+        title: const Text('Fund Wallet with Paytm'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -85,30 +85,30 @@ class _FundAccountScreenState extends State<FundAccountScreen> {
             TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Amount (INR)',
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             TextField(
               controller: _txnTokenController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Transaction Token',
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             TextField(
               controller: _midController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Merchant ID (MID)',
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: _isProcessing ? null : _startFunding,
               child: _isProcessing
-                  ? CircularProgressIndicator(color: Colors.white)
-                  : Text('Fund Account'),
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : const Text('Fund Account'),
             ),
           ],
         ),

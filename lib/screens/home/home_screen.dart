@@ -1,3 +1,4 @@
+import 'package:aptech_project/route/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:aptech_project/constants.dart';
 import 'components/offer_carousel_and_categories.dart';
@@ -41,8 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: "New \narrival",
                     subtitle: "SPECIAL OFFER",
                     discountParcent: 50,
+                    image: 'https://res.cloudinary.com/dbjehxk0f/image/upload/v1745369026/products/r7xeb6vtrli3cn4qubhf.webp',
                     press: () {
-                      Navigator.pushNamed(context, '/onSaleScreenRoute');
+                      Navigator.pushNamed(context, productDetailsScreenRoute,
+                      arguments: 'ad25a081-b618-4f0f-bc44-d002d24892b3');
                     },
                   ),
                   const SizedBox(height: defaultPadding / 4),
@@ -50,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            const SliverToBoxAdapter(child: BestSellers()),
-            const SliverToBoxAdapter(child: MostPopular()),
+            const SliverToBoxAdapter(child: FlashSale()),
+            SliverToBoxAdapter(child: PopularProducts()),
             SliverToBoxAdapter(
               child: Column(
                 children: [
@@ -63,16 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   BannerSStyle5(
                     title: "Black \nfriday",
                     subtitle: "50% Off",
+                    image: 'https://i.postimg.cc/FK3rNf0t/black-laptop-is-stage-with-bright-neon-sign-that-says-black-friday-sale-569412-825.jpg',
                     bottomText: "Collection".toUpperCase(),
                     press: () {
-                      Navigator.pushNamed(context, '/onSaleScreenRoute');
+                      // Navigator.pushNamed(context, '/onSaleScreenRoute');
                     },
                   ),
                   const SizedBox(height: defaultPadding / 4),
                 ],
               ),
             ),
-            const SliverToBoxAdapter(child: BestSellers()),
           ],
         ),
       ),

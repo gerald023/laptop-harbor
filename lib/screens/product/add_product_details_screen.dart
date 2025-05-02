@@ -165,15 +165,15 @@ class _AddProductDetailsScreenState extends State<AddProductDetailsScreen>
 
   @override
    Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              title: const Text('Add Product Details'),
+              title: Text('Add Product Details'),
               floating: true,
             ),
-            const SliverPadding(
+            SliverPadding(
               padding: EdgeInsets.all(20.0),
               sliver: SliverToBoxAdapter(
                 child: AddProductDetailsForm(),

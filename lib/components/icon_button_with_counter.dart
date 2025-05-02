@@ -9,11 +9,11 @@ class IconButtonWithCounter extends StatelessWidget {
   final int numOfItems;
   final GestureTapCallback press;
   const IconButtonWithCounter({
-    Key? key,
+    super.key,
     required this.svgSrc,
     this.numOfItems = 0,
     required this.press,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class IconButtonWithCounter extends StatelessWidget {
               child: Container(
                 width: getProportionateScreenWidth(20),
                 height: getProportionateScreenWidth(20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFFFF4848),
                   shape: BoxShape.circle,
                 ),

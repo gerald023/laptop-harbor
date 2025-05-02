@@ -9,7 +9,7 @@ import 'cart_screen.dart';
 class LaptopDetailPage extends ConsumerWidget {
   final Laptop laptop;
 
-  const LaptopDetailPage({Key? key, required this.laptop}) : super(key: key);
+  const LaptopDetailPage({super.key, required this.laptop});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

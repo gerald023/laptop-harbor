@@ -26,15 +26,16 @@ class SignUpScreen extends StatelessWidget {
       body: SafeArea(
         child: LayoutBuilder(builder: (context, constraints) {
           return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Column(
               children: [
-                SizedBox(height: constraints.maxHeight * 0.08),
-                // Image.network(
-                //   "https://i.postimg.cc/nz0YBQcH/Logo-light.png",
-                //   height: 100,
-                // ),
-                SizedBox(height: constraints.maxHeight * 0.08),
+                const SizedBox(height: 30),
+                Image.network(
+                  "https://i.postimg.cc/CxTcnYG2/Laptop-Harbor-Logo.png",
+                  height: 200,
+                    width: 200,
+                ),
+                const SizedBox(height: 10),
                 Text(
                   "Sign Up",
                   style: Theme.of(context)
@@ -42,7 +43,7 @@ class SignUpScreen extends StatelessWidget {
                       .headlineSmall!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: constraints.maxHeight * 0.05),
+                const SizedBox(height: 10),
                 Form(
                   key: _formKey,
                   child: Column(

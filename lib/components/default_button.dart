@@ -8,11 +8,11 @@ class DefaultButton extends StatelessWidget {
   final VoidCallback press;
   final Color color;
   const DefaultButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.press,
     this.color = kPrimaryColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

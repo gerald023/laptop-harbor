@@ -65,10 +65,10 @@ class ProductService{
       List<String> imagesUrls = [];
       String displayImgUrl = '';
       try{
-        final cloudinary_upload = CloudinaryUploadService();
+        final cloudinaryUpload = CloudinaryUploadService();
        
         for (XFile image in images) {
-          String? uploadUrl = await cloudinary_upload.uploadImageToCloudinary(image);
+          String? uploadUrl = await cloudinaryUpload.uploadImageToCloudinary(image);
           if (uploadUrl != null) {
             imagesUrls.add(uploadUrl);
             displayImgUrl = imagesUrls[0];
@@ -183,6 +183,19 @@ class ProductService{
     return [];
   }
   }
+   Future<List<ProductModels>> getCheapProducts() async{
+    try{
+      final allProducts =  await getAllProducts();
+      final popularProducts = allProducts.where((product){
+        return product.discountPercent  != null && product.discountPercent! > 70;
+      }).toList();
+      
+      return popularProducts;
+    } catch (e) {
+    print('Error while getting popular products: $e');
+    return [];
+  }
+  }
 
   Future<ProductModels?> getProductById(String productId) async{
     try{
@@ -203,27 +216,74 @@ class ProductService{
 
   Future<ProductDetailsModel?> getProductDetail(String productId) async{
     try{
-      QuerySnapshot snapshot = await _firestore.collection('ProductDetails')
-      .where('productId', isEqualTo: productId)
-      .limit(1)
-      .get();
-    
-    if (snapshot.docs.isNotEmpty) {
-      final data = snapshot.docs.first.data() as Map<String, dynamic>;
+      if (productId.isEmpty) {
+      print('Product ID is empty $productId');
+      return null;
+    }
 
-      // Replace with your own parsing logic depending on ProductDetailsType
-      return ProductDetailsModel.fromMap(data); 
+      final docRef = _firestore.collection('ProductDetails').where('productId', isEqualTo: productId).limit(1);
+    final QuerySnapshot querySnapshot = await docRef.get();
+
+           if (querySnapshot.docs.isNotEmpty) {
+      final docSnapshot = querySnapshot.docs.first;
+      final rawData = docSnapshot.data() as Map<String, dynamic>;
+
+      if (rawData != null) {
+        print('Product details data: $rawData');
+        return ProductDetailsModel.fromMap(rawData);
+      } else {
+        print('Invalid or null data in document for productId: $productId');
+        return null;
+      }
     } else {
       print('No product details found for productId: $productId');
       return null;
     }
-    }catch(e){
-      print('error while getting product details $e');
+
+    }catch(e, stacktrace){
+      print('error while getting product details: $e');
+      print('Stacktrace: $stacktrace');
       return null;
     }
     
   }
 
+Future<List<ProductModels>> getProductsByCategory(String category) async{
+  try{
+    final allProducts =  await getAllProducts();
+    final productsByCategory = allProducts.where((product){
+      return product.category == category;
+    }).toList();
+    return productsByCategory;
+  }catch(e){
+    print('error getting product by category: $e');
+    return [];
+  }
+}
+
+ Future<List<ProductModels>> searchProduct(String query) async{
+  try{
+    if (query.trim().isEmpty) {
+      return await getAllProducts();
+    }
+    final allProducts = await getAllProducts();
+    final lowerQuery = query.toLowerCase();
+     return allProducts.where((product) {
+      final name = product.productName.toLowerCase();
+      final category = product.category.toLowerCase();
+      final description = product.productInfo.toLowerCase();
+      final price = product.price.toString();
+
+      return name.contains(lowerQuery) ||
+          category.contains(lowerQuery) ||
+          description.contains(lowerQuery) ||
+          price.contains(lowerQuery);
+    }).toList();
+  }catch(e){
+    print('Search failed: $e');
+    return [];
+  }
+ }
 
   Future<bool> addProductReview(ReviewsModel data) async{
       try{
@@ -235,16 +295,12 @@ class ProductService{
       print(userId);
       String reviewId = uuid.v4();
       DocumentSnapshot reviewDoc = await _firestore.collection('Reviews').doc('userId').get();
-      if (reviewDoc.exists) {
-        
-      }else{
+      
         await _firestore.collection('Reviews').doc(reviewId).set(
           data.toMap()
         );
         return true;
-      }
-      return true;
-      }catch(e){
+            }catch(e){
         print('error while adding review: $e');
         return false;
       }
@@ -303,8 +359,10 @@ class ProductService{
               addCartItem(cartItem);
               
           print(cartItem.toMap());
+          await addCartItem(cartItem);
 
       }
+      
       print('product added to cart!');
     }catch(e){
       print('error while adding product to cart: $e');
@@ -362,12 +420,18 @@ class ProductService{
         }
 
         // Recalculate total price and item count
-        double newTotalPrice = 0;
-        int newTotalItem = 0;
-        for (final item in updatedCartItems) {
-          newTotalPrice += item.price * item.quantity;
-          newTotalItem += item.quantity;
-        }
+        // double newTotalPrice = 0;
+        // int newTotalItem = 0;
+
+        int newTotalItem = updatedCartItems.length;
+        double newTotalPrice = updatedCartItems.fold(
+          0.0,
+          (sum, item) => sum + item.price,
+        );
+        // for (final item in updatedCartItems) {
+        //   newTotalPrice += item.price * item.quantity;
+        //   newTotalItem += item.quantity;
+        // }
 
         // Create the updated cart model
         CartModel updatedCart = CartModel(
@@ -435,7 +499,7 @@ class ProductService{
       });
     } catch (e) {
       print('Error in removeCartItem transaction: $e');
-      throw e;
+      rethrow;
     }
   }
   Future <CartModel?> getCartItems()async{
@@ -541,7 +605,7 @@ class ProductService{
     } catch (e) {
       // Handle the error that occurred within the transaction.
       print('Error in updateCartItemQuantity transaction: $e');
-      throw e; // Re-throw the error so the caller can handle it.
+      rethrow; // Re-throw the error so the caller can handle it.
     }
   }
   //   Future<void> checkout(BuildContext context) async {
@@ -579,10 +643,10 @@ class ProductService{
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => Center(child: CircularProgressIndicator()),
+      builder: (_) => const Center(child: CircularProgressIndicator()),
     );
 
-    await Future.delayed(Duration(seconds: 2)); // Simulated payment delay
+    await Future.delayed(const Duration(seconds: 2)); // Simulated payment delay
 
     final order = {
       'items': cartItems,
@@ -596,7 +660,7 @@ class ProductService{
     }
 
     Navigator.pop(context); // close dialog
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Order placed successfully')));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Order placed successfully')));
   }
 
 }

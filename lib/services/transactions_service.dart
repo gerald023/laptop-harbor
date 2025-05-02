@@ -1,8 +1,10 @@
 import 'package:aptech_project/models/account_model.dart';
 import 'package:aptech_project/models/address_model.dart';
 import 'package:aptech_project/models/cart_item_model.dart';
+import 'package:aptech_project/models/cart_model.dart';
 import 'package:aptech_project/models/transaction_model.dart';
 import 'package:aptech_project/services/auth_services.dart';
+import 'package:aptech_project/services/product_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,27 +22,30 @@ class TransactionService {
   Future<bool> handleTransactions(TransactionModel transaction) async {
     try {
       User? user = _auth.currentUser;
-      final accountRef =  _firestore.collection('Accounts').doc(user!.uid);
+      AccountModel? account = await AuthService().getAccountByUserId(user!.uid);
+      
+      print('user data from transaction method: $user \n account details: $account');
+      final accountRef =  _firestore.collection('Accounts').doc(account!.accountId);
       final String transactionId =  uuid.v4();
       final transactionRef = _firestore.collection('Transactions').doc(transactionId);
 
       // Step 1: Get user's current wallet/account
-      DocumentSnapshot accountSnap = await accountRef.get();
-      if (!accountSnap.exists) throw Exception('User account not found');
-      final data = accountSnap.data() as Map<String, dynamic>;
-      AccountModel account = AccountModel.fromMap(data);
+      // DocumentSnapshot accountSnap = await accountRef.get();
+      // if (!accountSnap.exists) throw Exception('User account not found');
+      // final data = accountSnap.data() as Map<String, dynamic>;
+      // AccountModel account = AccountModel.fromMap(data);
 
       double newBalance;
 
       // Step 2: Handle transaction based on its purpose
       switch (transaction.purpose.toLowerCase()) {
         case 'wallet_funding':
-          newBalance = account.accountBalance + transaction.amount;
+          newBalance = account!.accountBalance + transaction.amount;
           break;
 
         case 'checkout':
         case 'purchase':
-          if (account.accountBalance < transaction.amount) {
+          if (account!.accountBalance < transaction.amount) {
             throw Exception('Insufficient balance');
           }
           newBalance = account.accountBalance - transaction.amount;
@@ -62,7 +67,7 @@ class TransactionService {
         'userId': user.uid,
         'amount': transaction.amount,
         'purpose': transaction.purpose,
-        'status': MyTransactionStatus.successful,
+        'status': MyTransactionStatus.successful.name,
         'timestamp': DateTime.now(),
         'paymentMethod': transaction.paymentMethod,
         'reference': transaction.reference,
@@ -85,10 +90,11 @@ class TransactionService {
     return const Uuid().v4();
   }
 
-  Future<String> placeOrder(TransactionModel transaction, List<CartItemModel> items) async{
+  Future<String> placeOrder(TransactionModel transaction, CartModel cart) async{
     try{
       bool isTransactionPassed = await handleTransactions(transaction);
       User? user = _auth.currentUser;
+      print('user data: $user ${user!.uid} \n ${user.displayName} \n ${user.email}');
       if (!isTransactionPassed || user == null) {
         return 'Transaction failed';
       }
@@ -98,20 +104,61 @@ class TransactionService {
         return 'No delivery address found';
       }
 
-        await _firestore.collection('Orders').doc(orderId).set({
-          'orderId': orderId,
-          'address': address.toMap(),
-          'items': items.map((item) => item.toMap()).toList(),
-          'status': MyOrderStatus.pending.value,
-          'startTime': DateTime.now(),
-          'endTime': DateTime.now().add(const Duration(minutes: 3))
-        });
+       DateTime startTime = DateTime.now();
+    DateTime endTime = startTime.add(const Duration(minutes: 3));
 
+     OrderModel order = OrderModel(
+      orderId: orderId,
+      address: address,
+      cart: cart,
+      status: MyOrderStatus.pending,
+      startTime: startTime,
+      endTime: endTime,
+    );
+
+    // {
+    //       'orderId': orderId,
+    //       'address': address.toMap(),
+    //       'items': items.map((item) => item.toMap()).toList(),
+    //       'status': MyOrderStatus.pending.value,
+    //       'startTime': DateTime.now(),
+    //       'endTime': DateTime.now().add(const Duration(minutes: 3))
+    //     }
+
+        await _firestore.collection('Orders').doc(orderId).set(order.toMap());
+        for (var i = 0; i < order.cart.cartItems.length; i++) {
+                  await ProductService().removeCartItem(order.cart.cartItems[i].productId);
+        }
         return 'Order placed successfully';
 
     }catch(e){
       print('error while placing orders: $e');
       return 'Order failed';
+    }
+  }
+
+   Future<OrderModel?> getSingleOrder(String orderId) async {
+    try {
+      DocumentSnapshot doc = await _firestore.collection('Orders').doc(orderId).get();
+      if (doc.exists) {
+        return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+      }
+      return null;
+    } catch (e) {
+      print('Error fetching order: $e');
+      return null;
+    }
+  }
+
+ Future<List<OrderModel>> getUserOrders() async {
+    try {
+      final User? user = _auth.currentUser;
+      if (user == null) return [];
+      final snapshot = await _firestore.collection('Orders').where('cart.userId', isEqualTo: user.uid).get();
+      return snapshot.docs.map((doc) => OrderModel.fromMap(doc.data())).toList();
+    } catch (e) {
+      print('Error fetching user orders: $e');
+      return [];
     }
   }
 
@@ -143,6 +190,7 @@ Future<bool> createAddress({
 Future<AddressModel?> getRecentUserAddress() async{
   try{
     User? user = _auth.currentUser;
+    
     final snapshot = await _firestore
           .collection('Addresses')
           .where('userId', isEqualTo: user!.uid)

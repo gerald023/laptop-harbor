@@ -6,9 +6,9 @@ import '../size_config.dart';
 class SearchField extends StatelessWidget {
   final ValueChanged<String> onSubmit;
   const SearchField({
-    Key? key,
+    super.key,
     required this.onSubmit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SearchField extends StatelessWidget {
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           hintText: "Search Product",
-          prefixIcon: Icon(Icons.search),
+          prefixIcon: const Icon(Icons.search),
           contentPadding: EdgeInsets.symmetric(
               horizontal: getProportionateScreenWidth(20),
               vertical: getProportionateScreenWidth(9)),

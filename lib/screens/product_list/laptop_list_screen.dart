@@ -5,6 +5,8 @@ import 'widgets/laptop_grid_item.dart';
 import 'laptop_detail_page.dart';
 
 class LaptopListPage extends StatefulWidget {
+  const LaptopListPage({super.key});
+
   @override
   _LaptopListPageState createState() => _LaptopListPageState();
 }
@@ -13,7 +15,7 @@ class _LaptopListPageState extends State<LaptopListPage> {
   final LaptopRepository _repository = LaptopRepository();
   List<Laptop> filteredLaptops = [];
   String searchQuery = '';
-  RangeValues priceRange = RangeValues(500, 3000);
+  RangeValues priceRange = const RangeValues(500, 3000);
   List<String> selectedBrands = [];
   List<int> selectedRamSizes = [];
 
@@ -50,10 +52,10 @@ class _LaptopListPageState extends State<LaptopListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Laptop Store'),
+        title: const Text('Laptop Store'),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
             onPressed: () {
               _showFilterDialog();
             },
@@ -67,7 +69,7 @@ class _LaptopListPageState extends State<LaptopListPage> {
             child: TextField(
               decoration: InputDecoration(
                 labelText: 'Search laptops',
-                suffixIcon: Icon(Icons.search),
+                suffixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -79,11 +81,11 @@ class _LaptopListPageState extends State<LaptopListPage> {
             ),
           ),
           // Brand quick filters
-          Container(
+          SizedBox(
             height: 40,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: _repository.getAllBrands().map((brand) {
                 final isSelected = selectedBrands.contains(brand);
                 return Padding(
@@ -108,15 +110,15 @@ class _LaptopListPageState extends State<LaptopListPage> {
               }).toList(),
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Expanded(
             child: filteredLaptops.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.laptop, size: 64, color: Colors.grey),
-                        SizedBox(height: 16),
+                        const Icon(Icons.laptop, size: 64, color: Colors.grey),
+                        const SizedBox(height: 16),
                         Text(
                           'No laptops found',
                           style: TextStyle(
@@ -124,25 +126,25 @@ class _LaptopListPageState extends State<LaptopListPage> {
                             color: Colors.grey.shade700,
                           ),
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
                               searchQuery = '';
-                              priceRange = RangeValues(500, 3000);
+                              priceRange = const RangeValues(500, 3000);
                               selectedBrands = [];
                               selectedRamSizes = [];
                               filteredLaptops = _repository.getAllLaptops();
                             });
                           },
-                          child: Text('Reset Filters'),
+                          child: const Text('Reset Filters'),
                         ),
                       ],
                     ),
                   )
                 : GridView.builder(
-                    padding: EdgeInsets.all(16.0),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    padding: const EdgeInsets.all(16.0),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.75,
                       crossAxisSpacing: 16.0,
@@ -181,22 +183,22 @@ class _LaptopListPageState extends State<LaptopListPage> {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              title: Text('Filter Laptops'),
-              content: Container(
+              title: const Text('Filter Laptops'),
+              content: SizedBox(
                 width: double.maxFinite,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Price Range',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -219,15 +221,15 @@ class _LaptopListPageState extends State<LaptopListPage> {
                           });
                         },
                       ),
-                      SizedBox(height: 16),
-                      Text(
+                      const SizedBox(height: 16),
+                      const Text(
                         'Brand',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 8.0,
@@ -249,15 +251,15 @@ class _LaptopListPageState extends State<LaptopListPage> {
                           );
                         }).toList(),
                       ),
-                      SizedBox(height: 16),
-                      Text(
+                      const SizedBox(height: 16),
+                      const Text(
                         'RAM',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 8.0,
@@ -285,23 +287,23 @@ class _LaptopListPageState extends State<LaptopListPage> {
               ),
               actions: [
                 TextButton(
-                  child: Text('Reset'),
+                  child: const Text('Reset'),
                   onPressed: () {
                     setDialogState(() {
-                      priceRange = RangeValues(500, 3000);
+                      priceRange = const RangeValues(500, 3000);
                       selectedBrands = [];
                       selectedRamSizes = [];
                     });
                   },
                 ),
                 TextButton(
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 ElevatedButton(
-                  child: Text('Apply'),
+                  child: const Text('Apply'),
                   onPressed: () {
                     filterLaptops();
                     Navigator.of(context).pop();

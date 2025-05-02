@@ -62,18 +62,17 @@ class _SignupFormState extends ConsumerState<SignupForm> {
       // Navigator.pushNamed(context, '/onboarding');
        Navigator.pushNamed(context, entryPointScreenRoute);
     }else{
-      // ToasterUtils.showCustomSnackBar(context, errorMessage);
        showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text('Already Registered'),
-      content: Text('This email is already in use. Would you like to log in instead?'),
+      title: const Text('Already Registered'),
+      content: const Text('This email is already in use. Would you like to log in instead?'),
       actions: [
         TextButton(
           onPressed: () {
             Navigator.pushNamed(context, '/login');
           },
-          child: Text('Go to Login'),
+          child: const Text('Go to Login'),
         ),
       ],
     ),

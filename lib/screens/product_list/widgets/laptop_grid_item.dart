@@ -5,7 +5,7 @@ class LaptopGridItem extends StatelessWidget {
   final Laptop laptop;
   final Function onTap;
 
-  LaptopGridItem({required this.laptop, required this.onTap});
+  const LaptopGridItem({super.key, required this.laptop, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class LaptopGridItem extends StatelessWidget {
                   );
                 },
                 errorBuilder: (context, error, stackTrace) {
-                  return Center(
+                  return const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -54,21 +54,21 @@ class LaptopGridItem extends StatelessWidget {
                 children: [
                   Text(
                     laptop.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     laptop.brand,
                     style: TextStyle(
                       color: Colors.grey.shade700,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     '\$${laptop.price.toStringAsFixed(2)}',
                     style: TextStyle(
@@ -76,15 +76,15 @@ class LaptopGridItem extends StatelessWidget {
                       color: Colors.blue.shade800,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
-                      Icon(Icons.memory, size: 14),
-                      SizedBox(width: 4),
+                      const Icon(Icons.memory, size: 14),
+                      const SizedBox(width: 4),
                       Text('${laptop.ram}GB'),
-                      SizedBox(width: 8),
-                      Icon(Icons.storage, size: 14),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 8),
+                      const Icon(Icons.storage, size: 14),
+                      const SizedBox(width: 4),
                       Text('${laptop.storage}GB'),
                     ],
                   ),

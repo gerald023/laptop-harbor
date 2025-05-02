@@ -1,3 +1,4 @@
+import 'package:aptech_project/components/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:aptech_project/constants.dart';
 import 'package:aptech_project/route/screen_export.dart';
@@ -29,21 +30,24 @@ class AddedToCartMessageScreen extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: defaultPadding / 2),
-              const Text(
-                "Click the checkout button to complete the purchase process.",
-                textAlign: TextAlign.center,
-              ),
+              
               const Spacer(flex: 2),
-              OutlinedButton(
+              CustomButton(
                 onPressed: () {
                   Navigator.pushNamed(context, entryPointScreenRoute);
                 },
-                child: const Text("Continue shopping"),
-              ),
+                buttonText: 'Continue shopping'
+                ),
+              
               const SizedBox(height: defaultPadding),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text("Checkout"),
+              CustomButton(
+                onPressed: (){
+                  Navigator.pushNamed(context, 
+                    cartScreenRoute
+                  );
+                },
+                buttonText: 'Go To checkout',
+                backgroundColor: Colors.black,
               ),
               const Spacer(),
             ],

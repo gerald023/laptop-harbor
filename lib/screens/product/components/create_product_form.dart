@@ -38,12 +38,10 @@ class _CreateProductFormState extends State<CreateProductForm> {
         return;
       }
       final pickedFiles = await _picker.pickMultiImage();
-      if (pickedFiles != null) {
-        _selectedImages.addAll(pickedFiles.map((file) {
-          return XFile(file.path);
-        }));
-      }
-    } catch (e) {
+      _selectedImages.addAll(pickedFiles.map((file) {
+        return XFile(file.path);
+      }));
+        } catch (e) {
       print(e);
     }
   }

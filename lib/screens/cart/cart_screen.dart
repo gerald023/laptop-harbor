@@ -37,8 +37,8 @@ class CartScreen extends StatelessWidget {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(icon: Icon(Icons.remove), onPressed: () => updateQuantity(doc.id, -1)),
-                          IconButton(icon: Icon(Icons.add), onPressed: () => updateQuantity(doc.id, 1)),
+                          IconButton(icon: const Icon(Icons.remove), onPressed: () => updateQuantity(doc.id, -1)),
+                          IconButton(icon: const Icon(Icons.add), onPressed: () => updateQuantity(doc.id, 1)),
                         ],
                       ),
                     );
@@ -49,11 +49,11 @@ class CartScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Text('Total: \$${total.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10),
+                    Text('Total: \$${total.toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () => checkout(context),
-                      child: Text('Checkout'),
+                      child: const Text('Checkout'),
                     ),
                   ],
                 ),

@@ -69,6 +69,7 @@ class ReviewCard extends StatelessWidget {
                   glow: false,
                   allowHalfRating: true,
                   ignoreGestures: true,
+                  // tapOnlyMode: true,
                   onRatingUpdate: (value) {},
                   itemBuilder: (context, index) =>
                       SvgPicture.asset("assets/icons/Star_filled.svg"),

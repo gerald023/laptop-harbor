@@ -8,10 +8,10 @@ class CartItemWidget extends ConsumerWidget {
   final CartItem cartItem;
 
   const CartItemWidget({
-    Key? key,
+    super.key,
     required this.productId,
     required this.cartItem,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

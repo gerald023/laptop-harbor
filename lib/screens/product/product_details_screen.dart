@@ -3,7 +3,6 @@ import 'package:aptech_project/models/product_models.dart';
 import 'package:aptech_project/types/product_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:aptech_project/components/buy_full_ui_kit.dart';
 import 'package:aptech_project/components/cart_button.dart';
 import 'package:aptech_project/components/custom_modal_bottom_sheet.dart';
 import 'package:aptech_project/components/product/product_card.dart';
@@ -18,12 +17,13 @@ import 'components/product_list_tile.dart';
 import '../../components/review_card.dart';
 import 'product_buy_now_screen.dart';
 import './product_information_screen.dart';
+import 'package:aptech_project/types/product_types.dart';
 
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.productId });
 
-  final String productId; 
+  final String productId;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -34,11 +34,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ProductModels? _productModels;
   List<String>? _productImages;
 
+  
   Future<void> getProductDetails () async{
+    print('getting productId first: ${widget.productId}');
     try {
       final data = await ProductService().getProductDetail(widget.productId);
       final product = await ProductService().getProductById(widget.productId);
-      // print(product);
+      print('product details data: $data');
       print('product Id: ${widget.productId}');
       // print(data!.buildAndDesign);
       print( 'product details:  ${data!.basicInfo.productName}');
@@ -63,9 +65,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     if (productDetails == null) {
       return const ProductsSkelton();
     }
-    // final productId = ModalRoute.of(context)!.settings.arguments as String;
-    // print(productId);
-    // getProductDetails(productId);
     else {
       return Scaffold(
       bottomNavigationBar: true
@@ -85,6 +84,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           :
 
           /// If profuct is not available then show [NotifyMeCard]
+          // ignore: dead_code
           NotifyMeCard(
               isNotify: false,
               onChanged: (value) {},

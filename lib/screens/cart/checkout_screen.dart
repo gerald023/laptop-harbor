@@ -39,7 +39,7 @@ class CheckoutForm extends StatelessWidget {
             _buildSummaryRow('Payment Method:', transaction.paymentMethod),
             _buildSummaryRow('Currency:', transaction.currency),
             _buildSummaryRow('Description:', transaction.description),
-            _buildSummaryRow('Status:', transaction.status.value.toUpperCase()),
+            _buildSummaryRow('Status:', transaction.status!.value.toUpperCase()),
 
             const SizedBox(height: 20),
             SizedBox(

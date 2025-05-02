@@ -4,12 +4,12 @@ import '../../../models/review.dart';
 class ReviewCard extends StatelessWidget {
   final Review review;
 
-  ReviewCard({required this.review});
+  const ReviewCard({super.key, required this.review});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -20,7 +20,7 @@ class ReviewCard extends StatelessWidget {
               children: [
                 Text(
                   review.username,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -28,11 +28,11 @@ class ReviewCard extends StatelessWidget {
                   children: [
                     Text(
                       review.rating.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.star,
                       color: Colors.amber,
                       size: 18,
@@ -41,7 +41,7 @@ class ReviewCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(review.comment),
           ],
         ),

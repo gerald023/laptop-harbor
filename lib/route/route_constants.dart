@@ -4,11 +4,19 @@ const String preferredLanuageScreenRoute = "preferred_language";
 const String logInScreenRoute = "login";
 const String signUpScreenRoute = "signup";
 
+const String editProfileScreenRoute = 'edit_profile';
 const String userProfileScreenRoute = 'user_profile';
+const String profileScreenRoute = 'profile_screen';
 const String feedBackScreenRoute = 'feed_back';
 const String addressScreenRoute = 'address_screen';
 const String addAddressScreenRoute = 'add_address';
 const String editAddressScreenRoute = 'edit_address';
+
+const String orderHistoryScreenRoute = 'order_history';
+const String emptyOrderHistoryScreenRoute = 'empty_order_history';
+const String paymentSuccessfulScreenRoute = 'successful_payment';
+
+const String transactionFailedScreenRoute = 'transaction_failed';
 
 const String emptyCartScreenRoute = 'empty_cart';
 
@@ -24,12 +32,16 @@ const String noInternetScreenRoute = "no_internet";
 const String serverErrorScreenRoute = "server_error";
 const String setupFingerprintScreenRoute = "setup_fingerprint";
 const String setupFaceIdScreenRoute = "setup_faceid";
+
 const String productDetailsScreenRoute = "product_details";
 const String createProductScreenRoute = "add_product";
 const String productReviewsScreenRoute = "product_reviews";
 const String addProductDetailsScreenRoute = "add_product_details";
 const String addReviewsScreenRoute = "add_reviews";
+const String productCategoryScreenRoute = 'product_category';
+
 const String homeScreenRoute = "home";
+
 const String brandScreenRoute = "brand";
 const String discoverWithImageScreenRoute = "discover_with_image";
 const String subDiscoverScreenRoute = "sub_discover";
@@ -40,7 +52,7 @@ const String searchScreenRoute = "search";
 const String searchHistoryScreenRoute = "search_history";
 const String bookmarkScreenRoute = "bookmark";
 const String entryPointScreenRoute = "entry_point";
-const String profileScreenRoute = "profile";
+// const String profileScreenRoute = "profile";
 const String getHelpScreenRoute = "get_help";
 const String chatScreenRoute = "chat";
 const String userInfoScreenRoute = "user_info";

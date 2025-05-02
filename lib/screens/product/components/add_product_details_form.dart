@@ -78,7 +78,7 @@ class _AddProductDetailsFormState extends State<AddProductDetailsForm> {
   }
   
 
- ProductDetailsType _getProductDetailsData(){
+ ProductDetailsModel _getProductDetailsData(){
     Battery batteryData = Battery(
     chargingType: chargingTypeController!,
     backupHours: double.parse(batteryBackupHoursController!),
@@ -112,7 +112,7 @@ class _AddProductDetailsFormState extends State<AddProductDetailsForm> {
     type: displayTypeController!,
     sizeInches: double.parse(sizedInchesController!)
   );
-  return ProductDetailsType(
+  return ProductDetailsModel(
     basicInfo: basicInfoData,
     battery: batteryData,
     buildAndDesign: buildAndDesignData,
@@ -134,7 +134,7 @@ Future<void> _addProductDetails(BuildContext context)async{
     _isLoading = true;
   });
   try{
-    final data = await _getProductDetailsData();
+    final data = _getProductDetailsData();
     final response = await productService.AddProductDetails(
       OSInfo: data.operatingSystem,
       basicInfo: data.basicInfo,
@@ -162,14 +162,14 @@ Future<void> _addProductDetails(BuildContext context)async{
        showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text('Already Registered'),
-      content: Text('This email is already in use. Would you like to log in instead?'),
+      title: const Text('Already Registered'),
+      content: const Text('This email is already in use. Would you like to log in instead?'),
       actions: [
         TextButton(
           onPressed: () {
             Navigator.pushNamed(context, '/login');
           },
-          child: Text('Go to Login'),
+          child: const Text('Go to Login'),
         ),
       ],
     ),
@@ -228,7 +228,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                           return null;
                         },
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -269,7 +269,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.grey,
                         ),
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.numbers_rounded
                         )
                         ),
@@ -289,7 +289,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                 )
             ],
           ),
-          SizedBox(height: 70,),
+          const SizedBox(height: 70,),
 
           /* 
               BATTERY FORM SECTION:
@@ -306,7 +306,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                 color: Colors.black,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
                         Container(
@@ -337,10 +337,10 @@ Future<void> _addProductDetails(BuildContext context)async{
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                   Container(
+                   SizedBox(
                     width: 170,
                     child: DropdownButtonFormField(
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                     labelText: 'Capacity',
                     // border: OutlineInputBorder(),
                                     ),
@@ -348,7 +348,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                                     items: batteryCapacity.map((String value){
                     return DropdownMenuItem(
                       value: value,
-                      child: Text(value + 'WH')
+                      child: Text('${value}WH')
                     );
                                     }).toList(), 
                                      validator: (value) =>
@@ -360,10 +360,10 @@ Future<void> _addProductDetails(BuildContext context)async{
                                     }
                                   ),
                   ),
-                   Container(
+                   SizedBox(
                       width: 170,
                       child: DropdownButtonFormField(
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         labelText: 'Backup Hours',
                                         // border: OutlineInputBorder(),
                                       ),
@@ -371,7 +371,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                                       items: backupHours.map((String value){
                                         return DropdownMenuItem(
                       value: value,
-                      child: Text(value + 'hrs')
+                      child: Text('${value}hrs')
                                         );
                                       }).toList(), 
                                        validator: (value) =>
@@ -383,7 +383,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                                       }
                                     ),
                     ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                      
                 ]
               ),
@@ -392,7 +392,7 @@ Future<void> _addProductDetails(BuildContext context)async{
               ),
               Container(
                       child: DropdownButtonFormField(
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         labelText: 'Charger type',
                                         // border: OutlineInputBorder(),
                                       ),
@@ -415,7 +415,7 @@ Future<void> _addProductDetails(BuildContext context)async{
             ],
           ),
 
-          SizedBox(height: 70.0),
+          const SizedBox(height: 70.0),
 
           /*
                 PRODUCT OS, MEMORY AND DESIGN FORM 
@@ -432,7 +432,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                 fontWeight: FontWeight.bold,
               ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -441,7 +441,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                 decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(16)
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 2),
                 child: Column(
                   children: [
                     const Text('OS Type',
@@ -450,7 +450,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                         fontWeight: FontWeight.bold
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     DropdownButton<String>(
                   
                   value: osName,
@@ -494,7 +494,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                 decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(16)
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 2),
                 child: Column(
                   children: [
                     const Text('OS Version',
@@ -567,7 +567,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                 decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(16)
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 2),
                 child: Column(
                   children: [
                     const Text('RAM Size', 
@@ -576,7 +576,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                         fontWeight: FontWeight.bold
                       )
                     ),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     DropdownButton<String>(
                   
                   value: memorySize,
@@ -585,7 +585,7 @@ Future<void> _addProductDetails(BuildContext context)async{
             return Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                memorySize + 'GB RAM',
+                '${memorySize}GB RAM',
               ),
             );
           }).toList();
@@ -593,7 +593,7 @@ Future<void> _addProductDetails(BuildContext context)async{
         items: memoryRamSize.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value + 'GB RAM'),
+            child: Text('${value}GB RAM'),
           );
         }).toList(),
                   onChanged: (String? value) {
@@ -617,7 +617,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                 decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(16)
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 2),
                 child: Column(
                   children: [
                     const Text('Memory Type',
@@ -626,7 +626,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                         fontWeight: FontWeight.bold
                       )
                     ),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     DropdownButton<String>(
                   
                   value: memoryType,
@@ -678,7 +678,7 @@ Future<void> _addProductDetails(BuildContext context)async{
           )
         ]
       ),
-      SizedBox(height: 70),
+      const SizedBox(height: 70),
 
       /*
         LAPT0P'S DESIGN FORM FIELD
@@ -693,15 +693,15 @@ Future<void> _addProductDetails(BuildContext context)async{
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
+            SizedBox(
               width: 200,
               child: TextFormField(
                 controller:  laptopColor,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Color',
                   border: OutlineInputBorder(),
                 ),
@@ -713,7 +713,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                 },
               ),
             ),
-            Container(
+            SizedBox(
               width: 200,
               child: TextFormField(
                 controller:  laptopMaterial,
@@ -731,7 +731,7 @@ Future<void> _addProductDetails(BuildContext context)async{
             ),
           ],
         ),
-        SizedBox(height: 70),
+        const SizedBox(height: 70),
 
         /*
             LAPTOP'S PROCESSOR AND DISPLAY FORM FIELDS
@@ -750,7 +750,7 @@ Future<void> _addProductDetails(BuildContext context)async{
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                  Container(
+                  SizedBox(
                     width: 200,
                           child: DropdownButtonFormField(
                                           decoration: const InputDecoration(
@@ -773,7 +773,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                                           }
                                         ),
                         ),
-                        Container(
+                        SizedBox(
                     width: 200,
                           child: DropdownButtonFormField(
                                           decoration: const InputDecoration(
@@ -784,7 +784,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                                           items: baseCoreSpeed.map((String value){
                                             return DropdownMenuItem(
                           value: value,
-                          child: Text(value + 'GHz')
+                          child: Text('${value}GHz')
                                             );
                                           }).toList(), 
                                            validator: (value) =>
@@ -798,21 +798,21 @@ Future<void> _addProductDetails(BuildContext context)async{
                         ),
               ],
             ),
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             
               Column(
                 children: [
-                  Text('Display Information', 
+                  const Text('Display Information', 
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold
               ),
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
                   Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                      Container(
+                      SizedBox(
                         width: 200,
                               child: DropdownButtonFormField(
                                               decoration: const InputDecoration(
@@ -823,7 +823,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                                               items: screenSize.map((String value){
                                                 return DropdownMenuItem(
                               value: value,
-                              child: Text(value + '"')
+                              child: Text('$value"')
                                                 );
                                               }).toList(), 
                                                validator: (value) =>
@@ -836,7 +836,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                                             ),
                             ),
                             // SizedBox(width: 10,),
-                            Container(
+                            SizedBox(
                         width: 200,
                               child: DropdownButtonFormField(
                                               decoration: const InputDecoration(
@@ -861,12 +861,12 @@ Future<void> _addProductDetails(BuildContext context)async{
                             ),
                   ],
                               ),
-                              SizedBox(height: 30,),
+                              const SizedBox(height: 30,),
 
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                       width: 230,
                                               child: DropdownButtonFormField(
                                               decoration: const InputDecoration(
@@ -893,7 +893,7 @@ Future<void> _addProductDetails(BuildContext context)async{
                               ),
                 ],
               ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
              
           ],
         ),

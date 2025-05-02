@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AccountModel {
   final String accountId;
   final String userId;
@@ -16,7 +18,7 @@ class AccountModel {
       'accountName': accountName,
       'accountBalance': accountBalance,
        'currency': currency,
-      'createdAt': createdAt!.toIso8601String(),
+      'createdAt': Timestamp.fromDate(createdAt!),
     };
   }
 
@@ -27,7 +29,7 @@ class AccountModel {
       accountName: map['accountName'] ?? '', 
       accountBalance: map['accountBalance'] ?? 0.0,
       currency: map['currency'] ?? 'USD',
-      createdAt: DateTime.parse(map['createdAt']),
+      createdAt: (map['createdAt'] as Timestamp).toDate(),
     );
   }
 }

@@ -20,7 +20,7 @@ class LaptopRepository {
       discountedPrice: 1149.99,
       discountPercent: 4,
       createdBy: "admin",
-      createdAt: DateTime.now().subtract(Duration(days: 55)),
+      createdAt: DateTime.now().subtract(const Duration(days: 55)),
       updatedAt: DateTime.now(),
       reviews: [
         Review(username: "AppleFan", rating: 4.8, comment: "Perfect balance of performance and portability."),
@@ -42,7 +42,7 @@ class LaptopRepository {
       discountedPrice: 2299.99,
       discountPercent: 8,
       createdBy: "admin",
-      createdAt: DateTime.now().subtract(Duration(days: 30)),
+      createdAt: DateTime.now().subtract(const Duration(days: 30)),
       updatedAt: DateTime.now(),
       reviews: [
         Review(username: "ProUser", rating: 4.9, comment: "Incredible performance for creative professionals."),
@@ -54,7 +54,7 @@ class LaptopRepository {
   final ProductService _productService = ProductService();
   List<Laptop>? _cachedLaptops;
   DateTime? _lastFetchTime;
-  final Duration _cacheLifetime = Duration(minutes: 5);
+  Duration _cacheLifetime = Duration(minutes: 5);
 
   // Convert ProductModels to Laptop
   Laptop _productModelToLaptop(dynamic productModel) {

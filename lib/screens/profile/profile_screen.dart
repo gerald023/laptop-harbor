@@ -1,3 +1,5 @@
+import 'package:aptech_project/models/userModel.dart';
+import 'package:aptech_project/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:aptech_project/components/list_tile/divider_list_tile.dart';
@@ -8,22 +10,60 @@ import 'package:aptech_project/route/screen_export.dart';
 import 'components/profile_card.dart';
 import 'components/profile_menu_item_list_tile.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class UserProfileScreen extends StatefulWidget {
+  const UserProfileScreen({super.key});
+  
+  @override
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
+}
 
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  UserModel? userModel;
+  bool isUserAdmin = false;
+  Future<void> getUserProfile() async{
+    try{
+      final res = await AuthService().getCurrentUserModel();
+      setState(() {
+        userModel = res;
+        isUserAdmin = res!.isAdmin;
+      });
+    }catch(e){
+      print('error in getting profile: $e');
+    }
+  }
+   Future<void> signOut() async{
+    try{
+      final res = await AuthService().signOut();
+      Navigator.pushNamed(context, logInScreenRoute);
+    }catch(e){
+      print('error in getting profile: $e');
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    getUserProfile();
+  }
   @override
   Widget build(BuildContext context) {
+    if (userModel == null) {
+      return const Center(
+        child: CircularProgressIndicator(
+
+        ),
+      );
+    }
     return Scaffold(
       body: ListView(
         children: [
           ProfileCard(
-            name: "Sepide",
-            email: "theflutterway@gmail.com",
-            imageSrc: "https://i.imgur.com/IXnwbLk.png",
+            name: userModel!.name,
+            email: userModel!.email,
+            imageSrc: userModel!.profilePicture.toString(),
             // proLableText: "Sliver",
             // isPro: true, if the user is pro
             press: () {
-              Navigator.pushNamed(context, userProfileScreenRoute);
+              Navigator.pushNamed(context, profileScreenRoute);
             },
           ),
           Padding(
@@ -38,6 +78,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
           ),
+           
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -48,10 +89,18 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding / 2),
           ProfileMenuListTile(
+            text: "Add Products",
+            svgSrc: "assets/icons/Order.svg",
+            isAdmin: isUserAdmin,
+            press: () {
+              Navigator.pushNamed(context, createProductScreenRoute);
+            },
+          ),
+          ProfileMenuListTile(
             text: "Orders",
             svgSrc: "assets/icons/Order.svg",
             press: () {
-              Navigator.pushNamed(context, ordersScreenRoute);
+              Navigator.pushNamed(context, orderHistoryScreenRoute);
             },
           ),
           ProfileMenuListTile(
@@ -163,8 +212,9 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: defaultPadding),
 
           // Log Out
+          
           ListTile(
-            onTap: () {},
+            onTap: signOut,
             minLeadingWidth: 24,
             leading: SvgPicture.asset(
               "assets/icons/Logout.svg",
@@ -181,6 +231,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           )
         ],
+        
       ),
     );
   }

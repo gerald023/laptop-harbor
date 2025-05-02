@@ -1,7 +1,5 @@
 // lib/models/cart.dart
-import 'package:flutter/foundation.dart';
 import 'cart_items.dart';
-import 'laptop.dart';
 
 class Cart {
   final Map<String, CartItem> items;

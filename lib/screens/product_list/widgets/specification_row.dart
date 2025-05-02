@@ -5,7 +5,7 @@ class SpecificationRow extends StatelessWidget {
   final String label;
   final String value;
 
-  SpecificationRow({
+  const SpecificationRow({super.key, 
     required this.icon,
     required this.label,
     required this.value,
@@ -18,14 +18,14 @@ class SpecificationRow extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, size: 20, color: Colors.blue.shade700),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(
             '$label:',
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(value),
         ],
       ),
