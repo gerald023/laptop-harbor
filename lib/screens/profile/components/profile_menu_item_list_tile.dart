@@ -1,3 +1,4 @@
+import 'package:aptech_project/route/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:aptech_project/components/list_tile/divider_list_tile.dart';
@@ -35,7 +36,9 @@ final bool isAdmin;
         text,
         style: const TextStyle(fontSize: 14, height: 1),
       ),
-      press: press,
+      press: (){
+        Navigator.pushNamed(context, isAdmin ? createProductScreenRoute : entryPointScreenRoute);
+      },
       isShowDivider: isShowDivider,
     );
     }
