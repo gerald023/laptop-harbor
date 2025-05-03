@@ -27,7 +27,7 @@ List<CategoryModel> demoCategories = [
   route: productCategoryScreenRoute,
   ),
   CategoryModel(
-      name: "Work Station", svgSrc: "assets/icons/work_logo.svg", route: kidsScreenRoute),
+      name: "Work Station", svgSrc: "assets/icons/work_logo.svg", route: productCategoryScreenRoute),
 ];
 // End For Preview
 

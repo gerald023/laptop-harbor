@@ -92,9 +92,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             text: "Add Products",
             svgSrc: "assets/icons/Order.svg",
             isAdmin: isUserAdmin,
-            press: () {
-              Navigator.pushNamed(context, createProductScreenRoute);
-            },
+            press: () {},
           ),
           ProfileMenuListTile(
             text: "Orders",

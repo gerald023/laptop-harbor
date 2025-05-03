@@ -17,7 +17,7 @@ class ProductCategoryScreen extends StatefulWidget {
 }
 
 class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
-  late List<ProductModels> products;
+   List<ProductModels> products = [];
   Future<void> getProductsByCategory(String category) async{
     try{
       final res = await ProductService().getProductsByCategory(category);
@@ -38,6 +38,9 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (products.isEmpty) {
+      return Text('No ${widget.category} Laptops');
+    }
     return  Scaffold(
       body: CustomScrollView(
         slivers: [

@@ -190,11 +190,10 @@ Future<bool> createAddress({
 Future<AddressModel?> getRecentUserAddress() async{
   try{
     User? user = _auth.currentUser;
-    
+
     final snapshot = await _firestore
           .collection('Addresses')
           .where('userId', isEqualTo: user!.uid)
-          .orderBy('timestamp', descending: true)
           .limit(1)
           .get();
 
